@@ -37,17 +37,29 @@ namespace ProjectEuler
 
   public class DijkstraNode
   {
-    static int[][] MovementOffsets = new int[4][];
-    static DijkstraNode()
-    {
-      MovementOffsets[(int)Movement.Down] = new int[] { 0, 1 };
-      MovementOffsets[(int)Movement.Left] = new int[] { -1, 0 };
-      MovementOffsets[(int)Movement.Right] = new int[] { 1, 0 };
-      MovementOffsets[(int)Movement.Up] = new int[] { 0, -1 };
-    }
+    private static int[][] MovementOffsets = new int[4][];
 
     private DijkstraNode[] neighbors;
-    public DijkstraNode[] Neighbors { get { return neighbors; } }
+
+    static DijkstraNode()
+    {
+      MovementOffsets[(int)Movement.Down] = new[] {0, 1};
+      MovementOffsets[(int)Movement.Left] = new[] {-1, 0};
+      MovementOffsets[(int)Movement.Right] = new[] {1, 0};
+      MovementOffsets[(int)Movement.Up] = new[] {0, -1};
+    }
+
+    public DijkstraNode(int c, int r, int value)
+    {
+      Column = c;
+      Row = r;
+      Value = value;
+    }
+
+    public DijkstraNode[] Neighbors
+    {
+      get { return neighbors; }
+    }
 
     public int Row { get; private set; }
     public int Column { get; private set; }
@@ -56,13 +68,6 @@ namespace ProjectEuler
     public int Distance { get; set; }
     public DijkstraNode Previous { get; set; }
     public bool Removed { get; set; }
-
-    public DijkstraNode(int c, int r, int value)
-    {
-      Column = c;
-      Row = r;
-      Value = value;
-    }
 
     public void Reset(DijkstraNode[,] nodes, Movement[] moves, int cols, int rows)
     {
@@ -94,9 +99,9 @@ namespace ProjectEuler
       var Q = new List<DijkstraNode>();
       var nodes = new DijkstraNode[cols, rows];
 
-      for (int r = 0; r < rows; ++r)
+      for (var r = 0; r < rows; ++r)
       {
-        for (int c = 0; c < cols; ++c)
+        for (var c = 0; c < cols; ++c)
         {
           var node = new DijkstraNode(c, r, values[c, r]);
           nodes[c, r] = node;
@@ -128,9 +133,9 @@ namespace ProjectEuler
         u.Removed = true;
 
         // go through the neighbors
-        foreach(var v in u.Neighbors)
+        foreach (var v in u.Neighbors)
         {
-          if (v.Removed) continue;
+          if (v.Removed) { continue; }
 
           var alt = u.Distance + (u.Value + v.Value);
           if (alt < v.Distance)
@@ -148,7 +153,7 @@ namespace ProjectEuler
     {
       var min = Q[0];
       var minIndex = 0;
-      for (int i = 1; i < Q.Count; ++i)
+      for (var i = 1; i < Q.Count; ++i)
       {
         var node = Q[i];
         if (node.Distance < min.Distance)

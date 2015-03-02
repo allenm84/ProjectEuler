@@ -1,60 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Globalization;
 
 namespace ProjectEuler
 {
   /// <summary>Defines a vector with two components.</summary>
   public struct Vector2D : IEquatable<Vector2D>
   {
-    /// <summary>Gets or sets the x-component of the vector.</summary>
-    public double X;
-
-    /// <summary>Gets or sets the y-component of the vector.</summary>
-    public double Y;
-
     private static Vector2D _zero = default(Vector2D);
     private static Vector2D _one = new Vector2D(1d, 1d);
     private static Vector2D _unitX = new Vector2D(1d, 0d);
     private static Vector2D _unitY = new Vector2D(0d, 1d);
 
-    /// <summary>Returns a Vector2 with all of its components set to zero.</summary>
-    public static Vector2D Zero
-    {
-      get
-      {
-        return Vector2D._zero;
-      }
-    }
+    /// <summary>Gets or sets the x-component of the vector.</summary>
+    public double X;
 
-    /// <summary>Returns a Vector2 with both of its components set to one.</summary>
-    public static Vector2D One
-    {
-      get
-      {
-        return Vector2D._one;
-      }
-    }
-
-    /// <summary>Returns the unit vector for the x-axis.</summary>
-    public static Vector2D UnitX
-    {
-      get
-      {
-        return Vector2D._unitX;
-      }
-    }
-
-    /// <summary>Returns the unit vector for the y-axis.</summary>
-    public static Vector2D UnitY
-    {
-      get
-      {
-        return Vector2D._unitY;
-      }
-    }
+    /// <summary>Gets or sets the y-component of the vector.</summary>
+    public double Y;
 
     /// <summary>Initializes a new instance of Vector2.</summary>
     /// <param name="x">Initial value for the x-component of the vector.</param>
@@ -73,16 +37,31 @@ namespace ProjectEuler
       this.X = value;
     }
 
-    /// <summary>Retrieves a string representation of the current object.</summary>
-    public override string ToString()
+    /// <summary>Returns a Vector2 with all of its components set to zero.</summary>
+    public static Vector2D Zero
     {
-      CultureInfo currentCulture = CultureInfo.CurrentCulture;
-      return string.Format(currentCulture, "{{X:{0} Y:{1}}}", new object[]
-			{
-				this.X.ToString(currentCulture), 
-				this.Y.ToString(currentCulture)
-			});
+      get { return _zero; }
     }
+
+    /// <summary>Returns a Vector2 with both of its components set to one.</summary>
+    public static Vector2D One
+    {
+      get { return _one; }
+    }
+
+    /// <summary>Returns the unit vector for the x-axis.</summary>
+    public static Vector2D UnitX
+    {
+      get { return _unitX; }
+    }
+
+    /// <summary>Returns the unit vector for the y-axis.</summary>
+    public static Vector2D UnitY
+    {
+      get { return _unitY; }
+    }
+
+    #region IEquatable<Vector2D> Members
 
     /// <summary>Determines whether the specified Object is equal to the Vector2.</summary>
     /// <param name="other">The Object to compare with the current Vector2.</param>
@@ -91,11 +70,24 @@ namespace ProjectEuler
       return this.X == other.X && this.Y == other.Y;
     }
 
+    #endregion
+
+    /// <summary>Retrieves a string representation of the current object.</summary>
+    public override string ToString()
+    {
+      var currentCulture = CultureInfo.CurrentCulture;
+      return string.Format(currentCulture, "{{X:{0} Y:{1}}}", new object[]
+      {
+        this.X.ToString(currentCulture),
+        this.Y.ToString(currentCulture)
+      });
+    }
+
     /// <summary>Returns a value that indicates whether the current instance is equal to a specified object.</summary>
     /// <param name="obj">Object to make the comparison with.</param>
     public override bool Equals(object obj)
     {
-      bool result = false;
+      var result = false;
       if (obj is Vector2D)
       {
         result = this.Equals((Vector2D)obj);
@@ -126,8 +118,8 @@ namespace ProjectEuler
     /// <param name="value2">Source vector.</param>
     public static double Distance(Vector2D value1, Vector2D value2)
     {
-      double num = value1.X - value2.X;
-      double num2 = value1.Y - value2.Y;
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
       return Math.Sqrt(num * num + num2 * num2);
     }
 
@@ -137,8 +129,8 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The distance between the vectors.</param>
     public static void Distance(ref Vector2D value1, ref Vector2D value2, out double result)
     {
-      double num = value1.X - value2.X;
-      double num2 = value1.Y - value2.Y;
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
       result = Math.Sqrt(num * num + num2 * num2);
     }
 
@@ -147,8 +139,8 @@ namespace ProjectEuler
     /// <param name="value2">Source vector.</param>
     public static double DistanceSquared(Vector2D value1, Vector2D value2)
     {
-      double num = value1.X - value2.X;
-      double num2 = value1.Y - value2.Y;
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
       return num * num + num2 * num2;
     }
 
@@ -158,8 +150,8 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The distance between the vectors squared.</param>
     public static void DistanceSquared(ref Vector2D value1, ref Vector2D value2, out double result)
     {
-      double num = value1.X - value2.X;
-      double num2 = value1.Y - value2.Y;
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
       result = num * num + num2 * num2;
     }
 
@@ -183,7 +175,7 @@ namespace ProjectEuler
     /// <summary>Turns the current vector into a unit vector. The result is a vector one unit in length pointing in the same direction as the original vector.</summary>
     public void Normalize()
     {
-      double num = 1d / Math.Sqrt(this.X * this.X + this.Y * this.Y);
+      var num = 1d / Math.Sqrt(this.X * this.X + this.Y * this.Y);
       this.X *= num;
       this.Y *= num;
     }
@@ -192,7 +184,7 @@ namespace ProjectEuler
     /// <param name="value">Source Vector2.</param>
     public static Vector2D Normalize(Vector2D value)
     {
-      double num = 1d / Math.Sqrt(value.X * value.X + value.Y * value.Y);
+      var num = 1d / Math.Sqrt(value.X * value.X + value.Y * value.Y);
       Vector2D result;
       result.X = value.X * num;
       result.Y = value.Y * num;
@@ -204,7 +196,7 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] Normalized vector.</param>
     public static void Normalize(ref Vector2D value, out Vector2D result)
     {
-      double num = 1d / Math.Sqrt(value.X * value.X + value.Y * value.Y);
+      var num = 1d / Math.Sqrt(value.X * value.X + value.Y * value.Y);
       result.X = value.X * num;
       result.Y = value.Y * num;
     }
@@ -214,7 +206,7 @@ namespace ProjectEuler
     /// <param name="normal">Normal of vector.</param>
     public static Vector2D Reflect(Vector2D vector, Vector2D normal)
     {
-      double num = vector.X * normal.X + vector.Y * normal.Y;
+      var num = vector.X * normal.X + vector.Y * normal.Y;
       Vector2D result;
       result.X = vector.X - 2d * num * normal.X;
       result.Y = vector.Y - 2d * num * normal.Y;
@@ -227,7 +219,7 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The created reflect vector.</param>
     public static void Reflect(ref Vector2D vector, ref Vector2D normal, out Vector2D result)
     {
-      double num = vector.X * normal.X + vector.Y * normal.Y;
+      var num = vector.X * normal.X + vector.Y * normal.Y;
       result.X = vector.X - 2d * num * normal.X;
       result.Y = vector.Y - 2d * num * normal.Y;
     }
@@ -280,10 +272,10 @@ namespace ProjectEuler
     /// <param name="max">The maximum value.</param>
     public static Vector2D Clamp(Vector2D value1, Vector2D min, Vector2D max)
     {
-      double numX = value1.X;
+      var numX = value1.X;
       numX = ((numX > max.X) ? max.X : numX);
       numX = ((numX < min.X) ? min.X : numX);
-      double numY = value1.Y;
+      var numY = value1.Y;
       numY = ((numY > max.Y) ? max.Y : numY);
       numY = ((numY < min.Y) ? min.Y : numY);
       Vector2D result;
@@ -299,10 +291,10 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The clamped value.</param>
     public static void Clamp(ref Vector2D value1, ref Vector2D min, ref Vector2D max, out Vector2D result)
     {
-      double numX = value1.X;
+      var numX = value1.X;
       numX = ((numX > max.X) ? max.X : numX);
       numX = ((numX < min.X) ? min.X : numX);
-      double numY = value1.Y;
+      var numY = value1.Y;
       numY = ((numY > max.Y) ? max.Y : numY);
       numY = ((numY < min.Y) ? min.Y : numY);
       result.X = numX;
@@ -394,8 +386,8 @@ namespace ProjectEuler
     /// <param name="amount">Weighting factor.</param>
     public static Vector2D CatmullRom(Vector2D value1, Vector2D value2, Vector2D value3, Vector2D value4, double amount)
     {
-      double num = amount * amount;
-      double num2 = amount * num;
+      var num = amount * amount;
+      var num2 = amount * num;
       Vector2D result;
       result.X = 0.5d * (2d * value2.X + (-value1.X + value3.X) * amount + (2d * value1.X - 5d * value2.X + 4d * value3.X - value4.X) * num + (-value1.X + 3d * value2.X - 3d * value3.X + value4.X) * num2);
       result.Y = 0.5d * (2d * value2.Y + (-value1.Y + value3.Y) * amount + (2d * value1.Y - 5d * value2.Y + 4d * value3.Y - value4.Y) * num + (-value1.Y + 3d * value2.Y - 3d * value3.Y + value4.Y) * num2);
@@ -411,8 +403,8 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] A vector that is the result of the Catmull-Rom interpolation.</param>
     public static void CatmullRom(ref Vector2D value1, ref Vector2D value2, ref Vector2D value3, ref Vector2D value4, double amount, out Vector2D result)
     {
-      double num = amount * amount;
-      double num2 = amount * num;
+      var num = amount * amount;
+      var num2 = amount * num;
       result.X = 0.5d * (2d * value2.X + (-value1.X + value3.X) * amount + (2d * value1.X - 5d * value2.X + 4d * value3.X - value4.X) * num + (-value1.X + 3d * value2.X - 3d * value3.X + value4.X) * num2);
       result.Y = 0.5d * (2d * value2.Y + (-value1.Y + value3.Y) * amount + (2d * value1.Y - 5d * value2.Y + 4d * value3.Y - value4.Y) * num + (-value1.Y + 3d * value2.Y - 3d * value3.Y + value4.Y) * num2);
     }
@@ -425,12 +417,12 @@ namespace ProjectEuler
     /// <param name="amount">Weighting factor.</param>
     public static Vector2D Hermite(Vector2D value1, Vector2D tangent1, Vector2D value2, Vector2D tangent2, double amount)
     {
-      double num = amount * amount;
-      double num2 = amount * num;
-      double num3 = 2d * num2 - 3d * num + 1d;
-      double num4 = -2d * num2 + 3d * num;
-      double num5 = num2 - 2d * num + amount;
-      double num6 = num2 - num;
+      var num = amount * amount;
+      var num2 = amount * num;
+      var num3 = 2d * num2 - 3d * num + 1d;
+      var num4 = -2d * num2 + 3d * num;
+      var num5 = num2 - 2d * num + amount;
+      var num6 = num2 - num;
       Vector2D result;
       result.X = value1.X * num3 + value2.X * num4 + tangent1.X * num5 + tangent2.X * num6;
       result.Y = value1.Y * num3 + value2.Y * num4 + tangent1.Y * num5 + tangent2.Y * num6;
@@ -446,12 +438,12 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The result of the Hermite spline interpolation.</param>
     public static void Hermite(ref Vector2D value1, ref Vector2D tangent1, ref Vector2D value2, ref Vector2D tangent2, double amount, out Vector2D result)
     {
-      double num = amount * amount;
-      double num2 = amount * num;
-      double num3 = 2f * num2 - 3f * num + 1f;
-      double num4 = -2f * num2 + 3f * num;
-      double num5 = num2 - 2f * num + amount;
-      double num6 = num2 - num;
+      var num = amount * amount;
+      var num2 = amount * num;
+      var num3 = 2f * num2 - 3f * num + 1f;
+      var num4 = -2f * num2 + 3f * num;
+      var num5 = num2 - 2f * num + amount;
+      var num6 = num2 - num;
       result.X = value1.X * num3 + value2.X * num4 + tangent1.X * num5 + tangent2.X * num6;
       result.Y = value1.Y * num3 + value2.Y * num4 + tangent1.Y * num5 + tangent2.Y * num6;
     }
@@ -585,7 +577,7 @@ namespace ProjectEuler
     /// <param name="divider">The divisor.</param>
     public static Vector2D Divide(Vector2D value1, double divider)
     {
-      double num = 1d / divider;
+      var num = 1d / divider;
       Vector2D result;
       result.X = value1.X * num;
       result.Y = value1.Y * num;
@@ -598,7 +590,7 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The result of the division.</param>
     public static void Divide(ref Vector2D value1, double divider, out Vector2D result)
     {
-      double num = 1d / divider;
+      var num = 1d / divider;
       result.X = value1.X * num;
       result.Y = value1.Y * num;
     }
@@ -700,7 +692,7 @@ namespace ProjectEuler
     /// <param name="divider">The divisor.</param>
     public static Vector2D operator /(Vector2D value1, double divider)
     {
-      double num = 1d / divider;
+      var num = 1d / divider;
       Vector2D result;
       result.X = value1.X * num;
       result.Y = value1.Y * num;
@@ -711,8 +703,8 @@ namespace ProjectEuler
     /// <param name="radians"></param>
     public void Rotate(double radians)
     {
-      double num = Math.Cos(radians);
-      double num2 = Math.Sin(radians);
+      var num = Math.Cos(radians);
+      var num2 = Math.Sin(radians);
       var matrix = new
       {
         M11 = num, M12 = num2, M13 = 0d, M14 = 0d,
@@ -721,8 +713,8 @@ namespace ProjectEuler
         M41 = 0d, M42 = 0d, M43 = 0d, M44 = 1d,
       };
 
-      double x = this.X * matrix.M11 + this.Y * matrix.M21 + matrix.M41;
-      double y = this.X * matrix.M12 + this.Y * matrix.M22 + matrix.M42;
+      var x = this.X * matrix.M11 + this.Y * matrix.M21 + matrix.M41;
+      var y = this.X * matrix.M12 + this.Y * matrix.M22 + matrix.M42;
 
       this.X = x;
       this.Y = y;

@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
 
 namespace ProjectEuler
 {
   public class Problem086 : EulerProblem
   {
-    public override int Number { get { return 86; } }
+    public override int Number
+    {
+      get { return 86; }
+    }
 
     public override object Solve()
     {
       const int Target = 1000000;
 
-      int count = 0;
-      int M = 100;
+      var count = 0;
+      var M = 100;
       for (; count <= Target; ++M)
       {
         count = CountPaths(M);
@@ -32,37 +28,37 @@ namespace ProjectEuler
 
     private int CountPaths(int M)
     {
-      int count = 0;
-      for (int n = 1; n < M; ++n)
+      var count = 0;
+      for (var n = 1; n < M; ++n)
       {
-        int nn = n * n;
-        for (int m = n + 1; m < M; ++m)
+        var nn = n * n;
+        for (var m = n + 1; m < M; ++m)
         {
           // if not odd, then keep going
-          if ((n + m) % 2 == 0) continue;
+          if ((n + m) % 2 == 0) { continue; }
 
           // if not coprime, then keep going
-          if (MathHelper.GCD(m, n) != 1) continue;
+          if (MathHelper.GCD(m, n) != 1) { continue; }
 
           // calculate the (a,b) part of a^2 + b^2 = c^2. Since
           // we already know that c^2 is the smallest distance (so,
           // no need to do m^2 + n^2)
-          int x = 2 * n * m;
-          int y = (m * m) - nn;
+          var x = 2 * n * m;
+          var y = (m * m) - nn;
 
           // if a and b are too large, then stop
-          if ((x > M && y > M)) break;
+          if ((x > M && y > M)) { break; }
 
           // go through the k values. We multiply a and b by k
           // to generate the pythagorean triples
-          for (int k = 1; true; ++k)
+          for (var k = 1;; ++k)
           {
             // a, b are 2/3 of a pythagorean triple
-            int a = x * k;
-            int b = y * k;
+            var a = x * k;
+            var b = y * k;
 
             // a and b are too large, then stop
-            if (a > M && b > M) break;
+            if (a > M && b > M) { break; }
 
             // calculate the values
             if (b <= M) { count += Solutions(a, b); }
@@ -98,8 +94,8 @@ namespace ProjectEuler
        * (if this expression is positive), and if b<=M, there are [a/2] extra solutions.
        */
 
-      int diff = a - b;
-      int exp = ((a >> 1) + 1) - (diff > 0 ? diff : 1);
+      var diff = a - b;
+      var exp = ((a >> 1) + 1) - (diff > 0 ? diff : 1);
       return exp > 0 ? exp : 0;
     }
   }

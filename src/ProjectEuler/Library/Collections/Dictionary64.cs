@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Collections;
-using System.Diagnostics;
 
 namespace ProjectEuler
 {
@@ -16,13 +16,15 @@ namespace ProjectEuler
   {
     private Dictionary<int, Dictionary<int, KeyValuePair<long, TValue>>> dictionary;
 
-    private static int[] _keys(long l)
+    /// <summary>
+    /// Initializes a new empty instance of the Dictionary64 class.
+    /// </summary>
+    public Dictionary64()
     {
-      int lower = (int)(l >> 32);
-      int upper = (int)(l & 0xFFFFFFFF);
-
-      return new int[] { upper, lower };
+      dictionary = new Dictionary<int, Dictionary<int, KeyValuePair<long, TValue>>>();
     }
+
+    #region IDictionary<long,TValue> Members
 
     /// <summary>
     /// Gets a collection containing the keys.
@@ -66,15 +68,15 @@ namespace ProjectEuler
       get
       {
         var keys = _keys(key);
-        int key1 = keys[0];
-        int key2 = keys[1];
+        var key1 = keys[0];
+        var key2 = keys[1];
         return dictionary[key1][key2].Value;
       }
       set
       {
         var keys = _keys(key);
-        int key1 = keys[0];
-        int key2 = keys[1];
+        var key1 = keys[0];
+        var key2 = keys[1];
 
         Dictionary<int, KeyValuePair<long, TValue>> table;
         if (!dictionary.TryGetValue(key1, out table))
@@ -105,14 +107,6 @@ namespace ProjectEuler
     }
 
     /// <summary>
-    /// Initializes a new empty instance of the Dictionary64 class.
-    /// </summary>
-    public Dictionary64()
-    {
-      dictionary = new Dictionary<int, Dictionary<int, KeyValuePair<long, TValue>>>();
-    }
-
-    /// <summary>
     /// Adds the specified key and value to the dictionary.
     /// </summary>
     /// <param name="key">The key of the element to add.</param>
@@ -122,9 +116,9 @@ namespace ProjectEuler
     /// </param>
     public void Add(long key, TValue value)
     {
-      int[] keys = _keys(key);
-      int key1 = keys[0];
-      int key2 = keys[1];
+      var keys = _keys(key);
+      var key1 = keys[0];
+      var key2 = keys[1];
 
       Dictionary<int, KeyValuePair<long, TValue>> table;
       if (!dictionary.TryGetValue(key1, out table))
@@ -156,8 +150,8 @@ namespace ProjectEuler
     public bool ContainsKey(long key)
     {
       var keys = _keys(key);
-      int key1 = keys[0];
-      int key2 = keys[1];
+      var key1 = keys[0];
+      var key2 = keys[1];
 
       Dictionary<int, KeyValuePair<long, TValue>> table;
       if (!dictionary.TryGetValue(key1, out table))
@@ -179,8 +173,8 @@ namespace ProjectEuler
     public bool Contains(KeyValuePair<long, TValue> item)
     {
       var keys = _keys(item.Key);
-      int key1 = keys[0];
-      int key2 = keys[1];
+      var key1 = keys[0];
+      var key2 = keys[1];
 
       Dictionary<int, KeyValuePair<long, TValue>> table;
       if (!dictionary.TryGetValue(key1, out table))
@@ -208,8 +202,8 @@ namespace ProjectEuler
     public bool Remove(long key)
     {
       var keys = _keys(key);
-      int key1 = keys[0];
-      int key2 = keys[1];
+      var key1 = keys[0];
+      var key2 = keys[1];
 
       Dictionary<int, KeyValuePair<long, TValue>> table;
       if (!dictionary.TryGetValue(key1, out table))
@@ -251,8 +245,8 @@ namespace ProjectEuler
       value = default(TValue);
 
       var keys = _keys(key);
-      int key1 = keys[0];
-      int key2 = keys[1];
+      var key1 = keys[0];
+      var key2 = keys[1];
 
       Dictionary<int, KeyValuePair<long, TValue>> table;
       if (!dictionary.TryGetValue(key1, out table))
@@ -276,7 +270,9 @@ namespace ProjectEuler
     public void Clear()
     {
       foreach (var kvp in dictionary)
+      {
         kvp.Value.Clear();
+      }
       dictionary.Clear();
     }
 
@@ -314,6 +310,16 @@ namespace ProjectEuler
       return dictionary
         .SelectMany(k => k.Value.Values)
         .GetEnumerator();
+    }
+
+    #endregion
+
+    private static int[] _keys(long l)
+    {
+      var lower = (int)(l >> 32);
+      var upper = (int)(l & 0xFFFFFFFF);
+
+      return new[] {upper, lower};
     }
 
     /// <summary>

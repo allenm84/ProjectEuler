@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Drawing;
-using System.Security.Cryptography;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem151 : EulerProblem
   {
-    public override int Number { get { return 151; } }
+    public override int Number
+    {
+      get { return 151; }
+    }
 
     public override object Solve()
     {
@@ -35,25 +27,27 @@ namespace ProjectEuler
 
     private void Recur(int A2, int A3, int A4, int A5, double pr, int time, ref double prob)
     {
-      if (A2 + A3 + A4 + A5 == 1) prob += pr;
+      if (A2 + A3 + A4 + A5 == 1) { prob += pr; }
       if (time < 14)
       {
-        double pr1 = pr / (A2 + A3 + A4 + A5);
-        if (A2 > 0) Recur(A2 - 1, A3 + 1, A4 + 1, A5 + 1, pr1 * A2, time + 1, ref prob);
-        if (A3 > 0) Recur(A2, A3 - 1, A4 + 1, A5 + 1, pr1 * A3, time + 1, ref prob);
-        if (A4 > 0) Recur(A2, A3, A4 - 1, A5 + 1, pr1 * A4, time + 1, ref prob);
-        if (A5 > 0) Recur(A2, A3, A4, A5 - 1, pr1 * A5, time + 1, ref prob);
+        var pr1 = pr / (A2 + A3 + A4 + A5);
+        if (A2 > 0) { Recur(A2 - 1, A3 + 1, A4 + 1, A5 + 1, pr1 * A2, time + 1, ref prob); }
+        if (A3 > 0) { Recur(A2, A3 - 1, A4 + 1, A5 + 1, pr1 * A3, time + 1, ref prob); }
+        if (A4 > 0) { Recur(A2, A3, A4 - 1, A5 + 1, pr1 * A4, time + 1, ref prob); }
+        if (A5 > 0) { Recur(A2, A3, A4, A5 - 1, pr1 * A5, time + 1, ref prob); }
       }
     }
 
     private object MonteCarloSolution()
     {
       const long Weeks = 500000000000;
-      Random random = new Random();
+      var random = new Random();
 
       long sum = 0;
       for (long w = 0; w < Weeks; ++w)
+      {
         sum += run(random);
+      }
 
       return Math.Round(decimal.Divide(sum, Weeks), 6);
     }
@@ -71,7 +65,7 @@ namespace ProjectEuler
       // {A2, A3, A4, A5, A5}. However, one of the A5 papers
       // is used for the first job of the week. So we have:
       // {A2, A3, A4, A5}.
-      var envelope = new List<int>(20) { A2, A3, A4, A5 };
+      var envelope = new List<int>(20) {A2, A3, A4, A5};
 
       // initialize the variables
       int count = 0, i = 0, sheet, batch;
@@ -93,9 +87,15 @@ namespace ProjectEuler
 
         switch (sheet)
         {
-          case A2: envelope.Add(A3); goto case A3;
-          case A3: envelope.Add(A4); goto case A4;
-          case A4: envelope.Add(A5); break;
+          case A2:
+            envelope.Add(A3);
+            goto case A3;
+          case A3:
+            envelope.Add(A4);
+            goto case A4;
+          case A4:
+            envelope.Add(A5);
+            break;
         }
       }
 

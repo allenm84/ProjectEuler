@@ -5,7 +5,7 @@ using System.Text;
 
 namespace System.Common.Extensions
 {
-  public static partial class PrimeExtensions
+  public static class PrimeExtensions
   {
     private const uint mpvalue = 4000;
 
@@ -88,7 +88,9 @@ namespace System.Common.Extensions
       if (n < 4759123141) { ar = new long[] {2, 7, 61}; }
       else if (n < 341550071728321) { ar = new long[] {2, 3, 5, 7, 11, 13, 17}; }
       else
-      { ar = new long[] {2, 3, 5, 7, 11, 13, 17, 19, 23}; }
+      {
+        ar = new long[] {2, 3, 5, 7, 11, 13, 17, 19, 23};
+      }
       var d = n - 1;
       var s = 0;
       while ((d & 1) == 0)

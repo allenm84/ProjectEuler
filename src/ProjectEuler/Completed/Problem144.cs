@@ -2,23 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
 
 namespace ProjectEuler
 {
-  using Line = System.Tuple<ProjectEuler.Vector2D, ProjectEuler.Vector2D>;
+  using Line = Tuple<Vector2D, Vector2D>;
 
   public class Problem144 : EulerProblem
   {
-    public override int Number { get { return 144; } }
+    public override int Number
+    {
+      get { return 144; }
+    }
 
     public override object Solve()
     {
@@ -40,13 +34,13 @@ namespace ProjectEuler
       b = 10.1;
       x11 = 0.0;
       y = 10.1;
-      int counter = 0;
+      var counter = 0;
       do
       {
         x0 = x11;
         x11 = -(k * b - 2 * sqrt(100 + 25 * k * k - b * b)) / (4 + k * k);
         x12 = -(k * b + 2 * sqrt(100 + 25 * k * k - b * b)) / (4 + k * k);
-        if (abs(x11 - x0) < 0.001) x11 = x12;
+        if (abs(x11 - x0) < 0.001) { x11 = x12; }
         y = k * x11 + b;
         k = -tan(atan(k) + 2 * atan(4 * x11 / y));
         b = y - k * x11;
@@ -63,11 +57,11 @@ namespace ProjectEuler
       // x^2/5^2 + y^2/10^2 = 1
       // a = 5, b = 10
       double width = 5, height = 10;
-      List<Line> lines = new List<Line>();
+      var lines = new List<Line>();
       lines.Add(FromCoordinates(0.0, 10.1, 1.4, -9.6));
 
-      int count = 0;
-      bool done = false;
+      var count = 0;
+      var done = false;
 
       for (; !done; ++count)
       {

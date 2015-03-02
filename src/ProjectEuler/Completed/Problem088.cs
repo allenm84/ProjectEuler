@@ -2,29 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
 
 namespace ProjectEuler
 {
   public class Problem088 : EulerProblem
   {
-    private class ProductSum
+    private const int MaxK = 12000;
+    private const int MaxN = MaxK << 1;
+
+    public override int Number
     {
-      public int n;
-      public int k;
+      get { return 88; }
     }
-
-    const int MaxK = 12000;
-    const int MaxN = MaxK << 1;
-
-    public override int Number { get { return 88; } }
 
     public override object Solve()
     {
@@ -46,8 +35,8 @@ namespace ProjectEuler
       // go through the entries
       foreach (var entry in table)
       {
-        int k = entry.k;
-        int n = entry.n;
+        var k = entry.k;
+        var n = entry.n;
         kValues[k][n] = true;
       }
 
@@ -61,11 +50,13 @@ namespace ProjectEuler
 
     private int GetMin(IEnumerable<int> sequence)
     {
-      int min = int.MaxValue;
+      var min = int.MaxValue;
       foreach (var s in sequence)
       {
         if (s < min)
+        {
           min = s;
+        }
       }
       return min;
     }
@@ -75,12 +66,12 @@ namespace ProjectEuler
       for (short n = 2; n <= MaxK; ++n)
       {
         // check the product.  There is no reason to continue if the product gets too big
-        int productValue = product * n;
-        if (productValue > MaxN) break;
+        var productValue = product * n;
+        if (productValue > MaxN) { break; }
 
         // check the sum. There is no reason to continue if the sum gets too big
-        int sumValue = sum + n;
-        if (sumValue > MaxN) break;
+        var sumValue = sum + n;
+        if (sumValue > MaxN) { break; }
 
         // add the factor
         factors.Add(n);
@@ -88,16 +79,16 @@ namespace ProjectEuler
         // if the sumValue is less than or equal to the productValue, then add
         if ((sumValue <= productValue))
         {
-          int num = productValue;
+          var num = productValue;
 
           // the 'k' value is calculated by taking the number of factors (which we multiply together)
           // and adding on the number of ones needed.  For example, if we have the factors {3,2}, then
           // the product is 6. Meaning our N=6.  But the sum is 5.  Although we have 2 factors, we would
           // need one 1 in order for our sum to be 6. So, (2+1) = 3. Meaning, one of the values for k=3 is 6.
-          int k = factors.Count + (num - sumValue);
+          var k = factors.Count + (num - sumValue);
           if (k <= MaxK)
           {
-            table.Add(new ProductSum { k = k, n = num });
+            table.Add(new ProductSum {k = k, n = num});
           }
         }
 
@@ -106,5 +97,15 @@ namespace ProjectEuler
         factors.RemoveAt(factors.Count - 1);
       }
     }
+
+    #region Nested type: ProductSum
+
+    private class ProductSum
+    {
+      public int k;
+      public int n;
+    }
+
+    #endregion
   }
 }

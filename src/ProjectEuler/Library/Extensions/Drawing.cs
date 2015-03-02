@@ -10,7 +10,7 @@ using System.Text;
 
 namespace System.Common.Extensions
 {
-  public static partial class DrawingExtensions
+  public static class DrawingExtensions
   {
     #region WinHLSColor
 
@@ -199,7 +199,7 @@ namespace System.Common.Extensions
         if (saturation == 0)
         {
           green = (red = (blue = (byte)(luminosity * 255 / 240)));
-          if (hue != 160) {}
+          if (hue != 160) { }
         }
         else
         {

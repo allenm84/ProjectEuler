@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
 using System.Common.Extensions;
+using System.IO;
+using System.Linq;
+using System.Numerics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem123 : EulerProblem
   {
-    public override int Number { get { return 123; } }
+    public override int Number
+    {
+      get { return 123; }
+    }
 
     public override object Solve()
     {
@@ -45,15 +41,15 @@ namespace ProjectEuler
       // if n%2 == 0, then rem=2
       // if n%2 == 1, then rem = n*p*2
 
-      BigInteger max = BigInteger.Pow(10, 10);
-      int n = 5;
+      var max = BigInteger.Pow(10, 10);
+      var n = 5;
 
-      for (long p = 12; true; ++p)
+      for (long p = 12;; ++p)
       {
         if (p.IsPrime())
         {
           ++n;
-          if (n % 2 == 0) continue;
+          if (n % 2 == 0) { continue; }
           var rem = p * n;
           rem <<= 1;
           if (rem > max)
@@ -66,14 +62,14 @@ namespace ProjectEuler
 
     private static void BruteForce()
     {
-      int n = 0;
+      var n = 0;
       long p = 2;
 
       using (Stream stream = File.Open("prob123.txt", FileMode.Create))
       {
-        StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
+        var writer = new StreamWriter(stream) {AutoFlush = true};
         var max = BigInteger.Pow(10, 5);
-        for (; true; p++)
+        for (;; p++)
         {
           if (p.IsPrime())
           {

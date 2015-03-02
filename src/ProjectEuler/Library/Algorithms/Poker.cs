@@ -15,7 +15,7 @@ namespace ProjectEuler
     public static ushort EvaluateHand(string hand)
     {
       return EvaluateHand(hand
-        .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+        .Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)
         .Select(c => toKevCard(c))
         .ToArray());
     }
@@ -49,7 +49,7 @@ namespace ProjectEuler
     /// <returns></returns>
     public static ushort EvaluateHand(int c1, int c2, int c3, int c4, int c5)
     {
-      uint q = (uint)(c1 | c2 | c3 | c4 | c5) >> 16;
+      var q = (uint)(c1 | c2 | c3 | c4 | c5) >> 16;
       ushort s;
 
       // check for flushes and straight flushes
@@ -87,16 +87,32 @@ namespace ProjectEuler
       // xxxAKQJT 98765432 CDHSrrrr xxPPPPPP
 
       // retrieve what the rank is
-      int j = RANKS[card[0]];
+      var j = RANKS[card[0]];
 
       // retrieve the suit mask
-      int suit = 0;
+      var suit = 0;
       switch (card[1])
       {
-        case 'C': { suit = CLUB; break; }
-        case 'D': { suit = DIAMOND; break; }
-        case 'H': { suit = HEART; break; }
-        case 'S': { suit = SPADE; break; }
+        case 'C':
+        {
+          suit = CLUB;
+          break;
+        }
+        case 'D':
+        {
+          suit = DIAMOND;
+          break;
+        }
+        case 'H':
+        {
+          suit = HEART;
+          break;
+        }
+        case 'S':
+        {
+          suit = SPADE;
+          break;
+        }
       }
 
       // return the card mask

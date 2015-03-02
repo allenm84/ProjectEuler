@@ -5,7 +5,7 @@ using System.Text;
 
 namespace System.Common.Extensions
 {
-  public static partial class StringExtensions
+  public static class StringExtensions
   {
     /// <summary>
     /// 

@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
 using System.Common.Extensions;
+using System.Linq;
+using System.Numerics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem134 : EulerProblem
   {
-    public override int Number { get { return 134; } }
+    public override int Number
+    {
+      get { return 134; }
+    }
 
     public override object Solve()
     {
@@ -29,7 +24,7 @@ namespace ProjectEuler
       int p1 = 0, p2 = 0;
       BigInteger sum = 0;
 
-      bool first = true;
+      var first = true;
       foreach (var p in primes)
       {
         p1 = p2;
@@ -46,7 +41,7 @@ namespace ProjectEuler
           break;
         }
 
-        sum += fastCalculateS(p1, p2);  
+        sum += fastCalculateS(p1, p2);
       }
 
       return sum;
@@ -68,7 +63,7 @@ namespace ProjectEuler
       var b = v.Item2;
 
       a = (a * -p1) % p2;
-      if (a < 0) a += p2;
+      if (a < 0) { a += p2; }
 
       return D * a + p1;
     }
@@ -81,9 +76,9 @@ namespace ProjectEuler
     private BigInteger slowCalculateS(int p1, int p2)
     {
       BigInteger D = GetModFor(p1);
-      for (int x = 1; true; ++x)
+      for (var x = 1;; ++x)
       {
-        BigInteger S = (D * x) + p1;
+        var S = (D * x) + p1;
         if ((S % p2) == 0)
         {
           return S;
@@ -93,13 +88,13 @@ namespace ProjectEuler
 
     private int GetModFor(int n)
     {
-      if (0 <= n && n < 10) return 10;
-      if (10 <= n && n < 100) return 100;
-      if (100 <= n && n < 1000) return 1000;
-      if (1000 <= n && n < 10000) return 10000;
-      if (10000 <= n && n < 100000) return 100000;
-      if (100000 <= n && n < 1000000) return 1000000;
-      if (1000000 <= n && n < 10000000) return 10000000;
+      if (0 <= n && n < 10) { return 10; }
+      if (10 <= n && n < 100) { return 100; }
+      if (100 <= n && n < 1000) { return 1000; }
+      if (1000 <= n && n < 10000) { return 10000; }
+      if (10000 <= n && n < 100000) { return 100000; }
+      if (100000 <= n && n < 1000000) { return 1000000; }
+      if (1000000 <= n && n < 10000000) { return 10000000; }
       return 1;
     }
   }

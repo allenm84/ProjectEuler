@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem104 : EulerProblem
   {
-    public override int Number { get { return 104; } }
+    public override int Number
+    {
+      get { return 104; }
+    }
 
     public override object Solve()
     {
@@ -26,14 +20,14 @@ namespace ProjectEuler
       const double LogPhi = 0.20898764024997873376927208923;
       const double Log5Over2 = 0.34948500216800940239313055263;
 
-      int[] f = new int[2];
+      var f = new int[2];
       f[0] = 0;
       f[1] = 1;
 
-      for (int k = 2; true; ++k)
+      for (var k = 2;; ++k)
       {
-        int n = f[0] + f[1];
-        if(n > NineDigits)
+        var n = f[0] + f[1];
+        if (n > NineDigits)
         {
           n %= NineDigits;
         }

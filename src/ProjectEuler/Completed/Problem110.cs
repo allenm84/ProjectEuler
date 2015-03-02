@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
 using System.Common.Extensions;
+using System.Linq;
+using System.Numerics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem110 : EulerProblem
   {
-    public override int Number { get { return 110; } }
+    public override int Number
+    {
+      get { return 110; }
+    }
 
     public override object Solve()
     {
@@ -36,7 +31,7 @@ namespace ProjectEuler
       const int Limit = 4000000;
       var lst = new List<int>(100);
 
-      for (int n = 2; lst.Count < 100; ++n)
+      for (var n = 2; lst.Count < 100; ++n)
       {
         if (n.IsPrime())
         {
@@ -70,9 +65,9 @@ namespace ProjectEuler
       if (nf <= 3) { return primes[px]; }
 
       BigInteger ppow = primes[px];
-      BigInteger best = ppow * hcs((nf + 2) / 3, 1, px + 1, ref primes);
+      var best = ppow * hcs((nf + 2) / 3, 1, px + 1, ref primes);
 
-      for (int exp = 2; exp <= maxExp; ++exp)
+      for (var exp = 2; exp <= maxExp; ++exp)
       {
         ppow *= primes[px];
         if (ppow > best)

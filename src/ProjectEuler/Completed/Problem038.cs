@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
 
 namespace ProjectEuler
 {
   public class Problem038 : EulerProblem
   {
-    public override int Number { get { return 38; } }
+    public override int Number
+    {
+      get { return 38; }
+    }
 
     public override object Solve()
     {
-      var digits = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+      var digits = new[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
       var text = string.Join("", digits);
       var result = 0;
 
@@ -33,7 +30,7 @@ namespace ProjectEuler
       // of digits. Lets say n is 5000, we would have:
       // 5000 + 10000 = 500010000, which is the same number of
       // digits. So basically, n must be less than 10000.
-      for (int n = 1; n < 10000; ++n)
+      for (var n = 1; n < 10000; ++n)
       {
         foreach (var fact in factors)
         {

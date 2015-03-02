@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem085 : EulerProblem
   {
-    public override int Number { get { return 85; } }
+    public override int Number
+    {
+      get { return 85; }
+    }
 
     public override object Solve()
     {
@@ -23,9 +20,9 @@ namespace ProjectEuler
       var minDiff = Max;
       var area = 0;
 
-      for (int w = 2; w <= 100; ++w)
+      for (var w = 2; w <= 100; ++w)
       {
-        for (int h = 1; h < w; ++h)
+        for (var h = 1; h < w; ++h)
         {
           var count = countRectangles(w, h);
           var diff = BigInteger.Abs(Max - count);

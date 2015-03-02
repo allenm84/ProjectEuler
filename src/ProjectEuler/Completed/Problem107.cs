@@ -1,46 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
 using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem107 : EulerProblem
   {
-    private class Node
+    public override int Number
     {
-      public int ID;
-      public override int GetHashCode()
-      {
-        return ID;
-      }
+      get { return 107; }
     }
-
-    private class Edge
-    {
-      public Node Node1;
-      public Node Node2;
-      public int Value;
-
-      public bool Connects(Node n1, Node n2)
-      {
-        return
-          (Node1 == n1 && Node2 == n2) ||
-          (Node1 == n2 && Node2 == n1);
-      }
-    }
-
-    public override int Number { get { return 107; } }
 
     public override object Solve()
     {
@@ -55,7 +27,7 @@ namespace ProjectEuler
       // the matrix (the number of rows), will tell us how many nodes we need
       var nodes = Enumerable
         .Range(0, matrix.Length)
-        .Select(i => new Node { ID = i })
+        .Select(i => new Node {ID = i})
         .ToArray();
 
       // create a table of the edges
@@ -63,12 +35,12 @@ namespace ProjectEuler
 
       // now that we have the nodes, we need to find all of the connections
       // this node has, and add them to the edges
-      for (int i = 0; i < nodes.Length; ++i)
+      for (var i = 0; i < nodes.Length; ++i)
       {
         var n1 = nodes[i];
-        for (int j = 0; j < nodes.Length; ++j)
+        for (var j = 0; j < nodes.Length; ++j)
         {
-          if (i == j) continue;
+          if (i == j) { continue; }
           var n2 = nodes[j];
 
           var cell = matrix[i][j];
@@ -98,7 +70,7 @@ namespace ProjectEuler
       edges.Sort((a, b) => b.Value.CompareTo(a.Value));
 
       // go through the edges
-      for(int i = 0; i < edges.Count; ++i)
+      for (var i = 0; i < edges.Count; ++i)
       {
         // retrieve the edge
         var temp = edges.Pop(i);
@@ -118,7 +90,7 @@ namespace ProjectEuler
       }
 
       // return the difference
-      int newSum = edges.Sum(e => e.Value);
+      var newSum = edges.Sum(e => e.Value);
       return string.Format("{0} - {1} = {2}", sum, newSum, sum - newSum);
     }
 
@@ -129,7 +101,7 @@ namespace ProjectEuler
       var previous = new Dictionary<Node, Node>();
 
       // Initializations
-      for (int i = 0; i < nodes.Length; ++i)
+      for (var i = 0; i < nodes.Length; ++i)
       {
         // Unknown distance function from source to v
         dist[nodes[i]] = int.MaxValue;
@@ -144,7 +116,7 @@ namespace ProjectEuler
       {
         var u = Q[0];
         var minIndex = 0;
-        for (int m = 1; m < Q.Count; ++m)
+        for (var m = 1; m < Q.Count; ++m)
         {
           var c = Q[m];
           if (dist[c] < dist[u])
@@ -155,14 +127,14 @@ namespace ProjectEuler
         }
 
         // all remaining vertices are inaccessible from source
-        if (dist[u] == int.MaxValue) break;
+        if (dist[u] == int.MaxValue) { break; }
 
         // remove u from Q ;
         Q.RemoveAt(minIndex);
 
         // If we are only interested in a shortest path between vertices source and 
         // target, we can terminate the search at line 13 if u = target
-        if (u == n2) return true;
+        if (u == n2) { return true; }
 
         // add u to the visited
         visited.Add(u);
@@ -174,8 +146,8 @@ namespace ProjectEuler
           .Select(e => (e.Node1 == u ? e.Node2 : e.Node1));
         foreach (var v in neighbors)
         {
-          if (visited.Contains(v)) continue;
-          int alt = dist[u] + Math.Abs(v.ID - u.ID);
+          if (visited.Contains(v)) { continue; }
+          var alt = dist[u] + Math.Abs(v.ID - u.ID);
           if (alt < dist[v])
           {
             dist[v] = alt;
@@ -192,5 +164,37 @@ namespace ProjectEuler
       }
       return (t == n1);
     }
+
+    #region Nested type: Edge
+
+    private class Edge
+    {
+      public Node Node1;
+      public Node Node2;
+      public int Value;
+
+      public bool Connects(Node n1, Node n2)
+      {
+        return
+          (Node1 == n1 && Node2 == n2) ||
+            (Node1 == n2 && Node2 == n1);
+      }
+    }
+
+    #endregion
+
+    #region Nested type: Node
+
+    private class Node
+    {
+      public int ID;
+
+      public override int GetHashCode()
+      {
+        return ID;
+      }
+    }
+
+    #endregion
   }
 }

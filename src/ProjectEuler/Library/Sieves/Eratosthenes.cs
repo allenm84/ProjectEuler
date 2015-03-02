@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections;
 
 namespace ProjectEuler
 {
   public class Eratosthenes : IEnumerable<uint>
   {
-    private List<uint> primes;
     private uint limit;
+    private List<uint> primes;
 
     public Eratosthenes(uint candidate)
     {
@@ -17,6 +17,23 @@ namespace ProjectEuler
       primes = new List<uint>();
       fill();
     }
+
+    #region IEnumerable<uint> Members
+
+    public IEnumerator<uint> GetEnumerator()
+    {
+      foreach (var p in primes)
+      {
+        yield return p;
+      }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
+
+    #endregion
 
     /// <summary>
     ///The idea is to narrow the sievingContainer to only look at 1/3 of the numbers. 
@@ -58,7 +75,7 @@ namespace ProjectEuler
 
       //flag all factors of 6+/-1 as prime. 
       //this initializes our bit array that will be sieved.
-      for (int i = 6; i <= limit; i += 6)
+      for (var i = 6; i <= limit; i += 6)
       {
         sieveContainer[i + 1] = true;
         sieveContainer[i - 1] = true;
@@ -95,7 +112,7 @@ namespace ProjectEuler
           factor += marker * 6;
         }
 
-        while (!sieveContainer[(int)++marker]) ;
+        while (!sieveContainer[(int)++marker]) { ; }
       }
 
       marker = 0;
@@ -106,17 +123,6 @@ namespace ProjectEuler
           primes.Add((uint)marker);
         }
       }
-    }
-
-    public IEnumerator<uint> GetEnumerator()
-    {
-      foreach (var p in primes)
-        yield return p;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
     }
   }
 }

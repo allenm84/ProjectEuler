@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
 using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem008 : EulerProblem
   {
-    public override int Number { get { return 8; } }
+    public override int Number
+    {
+      get { return 8; }
+    }
 
     public override object Solve()
     {
@@ -19,16 +21,16 @@ namespace ProjectEuler
 
       // next, break them up into groups of five
       var groups = from i in Enumerable.Range(0, 996)
-                   select string.Join("", text.Extract(i, 5).OrderByDescending(c => c));
+        select string.Join("", text.Extract(i, 5).OrderByDescending(c => c));
 
       // order the groups by the largest number
       var max = groups.Max();
 
       // multiply the digits in the max together
-      int prod = 1;
-      for (int i = 0; i < 5; ++i)
+      var prod = 1;
+      for (var i = 0; i < 5; ++i)
       {
-        int n = ((int)max[i]) - 48;
+        var n = max[i] - 48;
         prod *= n;
       }
 

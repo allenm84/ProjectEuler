@@ -7,6 +7,7 @@ namespace ProjectEuler
 {
   public abstract class EulerProblem
   {
+    private Action<string> mAddMessage;
     public abstract int Number { get; }
 
     public virtual string Url
@@ -19,7 +20,6 @@ namespace ProjectEuler
       get { return string.Format("Problem {0:000}", Number); }
     }
 
-    private Action<string> mAddMessage;
     public void Initialize(Action<string> addMessage)
     {
       mAddMessage = addMessage;

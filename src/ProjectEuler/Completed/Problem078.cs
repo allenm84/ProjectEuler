@@ -2,37 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
 
 namespace ProjectEuler
 {
   public class Problem078 : EulerProblem
   {
-    public override int Number { get { return 78; } }
+    public override int Number
+    {
+      get { return 78; }
+    }
 
     public override object Solve()
     {
       const int Limit = 1000000;
 
       // create an array to hold the partition count
-      int[] p = new int[Limit];
+      var p = new int[Limit];
       p[0] = 1;
 
       // we start at n = 1
-      int n = 1;
+      var n = 1;
 
       // while p(n) isn't what we're looking for
       while (p[n - 1] % Limit != 0)
       {
         // initialize
-        int i = 1;
-        int x = 1;
+        var i = 1;
+        var x = 1;
         p[n] = 0;
 
         // generate pentagonal numbers while they're <= n

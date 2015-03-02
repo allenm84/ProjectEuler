@@ -1,35 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem100 : EulerProblem
   {
-    public override int Number { get { return 100; } }
+    public override int Number
+    {
+      get { return 100; }
+    }
 
     public override object Solve()
     {
       //a(n)=6*a(n-1)-a(n-2)-2
       //with a(0)=1, a(1)=3.
 
-      StringBuilder sb = new StringBuilder();
+      var sb = new StringBuilder();
       var an = new BigInteger[2];
       an[0] = 1;
       an[1] = 3;
 
       // this is (10^12)^2
-      BigInteger maximum = BigInteger.Parse("1000000000000000000000000");
+      var maximum = BigInteger.Parse("1000000000000000000000000");
 
       // while we've yet to reach the maximum
       while (true)

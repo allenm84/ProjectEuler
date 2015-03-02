@@ -9,21 +9,21 @@ namespace ProjectEuler
   {
     private int[,] grid = new int[9, 9];
 
-    public int this[int c, int r]
-    {
-      get { return grid[c, r]; }
-    }
-
     public SudokuGrid(string[] rows)
     {
-      for (int r = 0; r < rows.Length; ++r)
+      for (var r = 0; r < rows.Length; ++r)
       {
         var row = rows[r];
-        for (int c = 0; c < row.Length; ++c)
+        for (var c = 0; c < row.Length; ++c)
         {
           grid[c, r] = row[c] - 48;
         }
       }
+    }
+
+    public int this[int c, int r]
+    {
+      get { return grid[c, r]; }
     }
 
     public void Solve()
@@ -32,20 +32,20 @@ namespace ProjectEuler
       var candidates = new HashSet<int>[9, 9];
 
       // go through the grid and fill the candidates
-      for (int r = 0; r < 9; ++r)
+      for (var r = 0; r < 9; ++r)
       {
-        for (int c = 0; c < 9; ++c)
+        for (var c = 0; c < 9; ++c)
         {
           // create a set to hold the candidates
           var set = new HashSet<int>();
 
           // get the current value of the cell
-          int cell = grid[c, r];
+          var cell = grid[c, r];
           if (cell == 0)
           {
             // the cell has no value yet, so let's go through and
             // find the possibilities for this cell
-            for (int n = 1; n <= 9; ++n)
+            for (var n = 1; n <= 9; ++n)
             {
               // is it possible for this cell to have 'n' has the value?
               if (IsAvailable(n, c, r))
@@ -63,10 +63,10 @@ namespace ProjectEuler
       while (true)
       {
         // use the simple method
-        bool candidateFound = false;
-        for (int r = 0; r < 9; ++r)
+        var candidateFound = false;
+        for (var r = 0; r < 9; ++r)
         {
-          for (int c = 0; c < 9; ++c)
+          for (var c = 0; c < 9; ++c)
           {
             // retrieve the candidates for this cell
             var set = candidates[c, r];
@@ -76,7 +76,7 @@ namespace ProjectEuler
               candidateFound = true;
 
               // retrieve the value
-              int v = set.First();
+              var v = set.First();
 
               // remove this value from the set
               set.Remove(v);
@@ -90,8 +90,8 @@ namespace ProjectEuler
               foreach (var index in areas)
               {
                 // retrieve the col,row indices
-                int col = index[0];
-                int row = index[1];
+                var col = index[0];
+                var row = index[1];
                 candidates[col, row].Remove(v);
               }
             }
@@ -106,79 +106,76 @@ namespace ProjectEuler
           {
             break;
           }
-          else
-          {
-            // we didn't solve the grid, let's employ guessing
-            GuessSolve();
-            break;
-          }
+          // we didn't solve the grid, let's employ guessing
+          GuessSolve();
+          break;
         }
       }
     }
 
     private IEnumerable<int[]> GetRow(int c, int r)
     {
-      for (int row = 0; row < 9; ++row)
+      for (var row = 0; row < 9; ++row)
       {
         // we skip our current row
-        if (row == r) continue;
+        if (row == r) { continue; }
 
         // get the value in this column
-        yield return new int[] { c, row };
+        yield return new[] {c, row};
       }
     }
 
     private IEnumerable<int[]> GetColumn(int c, int r)
     {
-      for (int col = 0; col < 9; ++col)
+      for (var col = 0; col < 9; ++col)
       {
         // we skip our current column
-        if (col == c) continue;
+        if (col == c) { continue; }
 
         // get the value in this row
-        yield return new int[] { col, r };
+        yield return new[] {col, r};
       }
     }
 
     private IEnumerable<int[]> GetBox(int c, int r)
     {
-      int startCol = c - (c % 3);
-      int startRow = r - (r % 3);
-      int endCol = startCol + 3;
-      int endRow = startRow + 3;
+      var startCol = c - (c % 3);
+      var startRow = r - (r % 3);
+      var endCol = startCol + 3;
+      var endRow = startRow + 3;
 
-      for (int row = startRow; row < endRow; ++row)
+      for (var row = startRow; row < endRow; ++row)
       {
-        for (int col = startCol; col < endCol; ++col)
+        for (var col = startCol; col < endCol; ++col)
         {
           // we skip our current cell
-          if ((col == c) && (row == r)) continue;
+          if ((col == c) && (row == r)) { continue; }
 
           // get the value in this cell
-          yield return new int[] { col, row };
+          yield return new[] {col, row};
         }
       }
     }
 
     private IEnumerable<int[]> GetAreas(int c, int r)
     {
-      foreach (var v in GetRow(c, r)) yield return v;
-      foreach (var v in GetColumn(c, r)) yield return v;
-      foreach (var v in GetBox(c, r)) yield return v;
+      foreach (var v in GetRow(c, r)) { yield return v; }
+      foreach (var v in GetColumn(c, r)) { yield return v; }
+      foreach (var v in GetBox(c, r)) { yield return v; }
     }
 
     private bool IsAvailable(int n, int c, int r)
     {
       // create a variable to say if 'n is available
-      bool available = true;
+      var available = true;
 
       // get the related indices
       var areas = GetAreas(c, r);
       foreach (var index in areas)
       {
         // retrieve the col,row indices
-        int col = index[0];
-        int row = index[1];
+        var col = index[0];
+        var row = index[1];
 
         // get the value of this cell
         var v = grid[col, row];
@@ -187,7 +184,7 @@ namespace ProjectEuler
         available &= (v != n);
 
         // if no longer available, then stop
-        if (!available) break;
+        if (!available) { break; }
       }
 
       // return if we're available
@@ -196,11 +193,11 @@ namespace ProjectEuler
 
     private bool IsFilled()
     {
-      for (int r = 0; r < 9; ++r)
+      for (var r = 0; r < 9; ++r)
       {
-        for (int c = 0; c < 9; ++c)
+        for (var c = 0; c < 9; ++c)
         {
-          if (grid[c, r] == 0) return false;
+          if (grid[c, r] == 0) { return false; }
         }
       }
 
@@ -211,13 +208,14 @@ namespace ProjectEuler
 
     private bool IsSolved()
     {
-      for (int r = 0; r < 9; ++r)
+      for (var r = 0; r < 9; ++r)
       {
-        for (int c = 0; c < 9; ++c)
+        for (var c = 0; c < 9; ++c)
         {
           var areas = from area in GetAreas(c, r)
-                      group area by grid[area[0], area[1]] into areaGroup
-                      select areaGroup.Count();
+            group area by grid[area[0], area[1]]
+            into areaGroup
+            select areaGroup.Count();
           if (areas.Any(a => a != 3))
           {
             return false;
@@ -232,16 +230,16 @@ namespace ProjectEuler
       var indices = new List<int[]>();
       for (int r = 0, i = 0; r < 9; ++r)
       {
-        for (int c = 0; c < 9; ++c, ++i)
+        for (var c = 0; c < 9; ++c, ++i)
         {
           if (grid[c, r] == 0)
           {
-            indices.Add(new int[] { c, r });
+            indices.Add(new[] {c, r});
           }
         }
       }
 
-      for (int i = 0; i < indices.Count; ++i)
+      for (var i = 0; i < indices.Count; ++i)
       {
         // retrieve the row and column for this iteration
         var arr = indices[i];
@@ -250,7 +248,7 @@ namespace ProjectEuler
 
         // place n
         var n = grid[c, r] + 1;
-        while (n < 10 && !IsAvailable(n, c, r)) ++n;
+        while (n < 10 && !IsAvailable(n, c, r)) { ++n; }
 
         // if n is 10, then undo
         if (n == 10)

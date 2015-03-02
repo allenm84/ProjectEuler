@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem095 : Problem092
   {
-    public override int Number { get { return 95; } }
+    public override int Number
+    {
+      get { return 95; }
+    }
 
     public override object Solve()
     {
@@ -25,29 +19,29 @@ namespace ProjectEuler
 
       // create a table for the chain
       var nodes = new ChainNode[Max + 1];
-      nodes[0] = new ChainNode { Value = 0 };
+      nodes[0] = new ChainNode {Value = 0};
 
       // create a table of the factors for all the possible N values
       var table = new int[Max + 1];
       table[0] = 0;
 
       // fill the tables
-      for (int n = 1; n <= Max; ++n)
+      for (var n = 1; n <= Max; ++n)
       {
         var sum = 0;
         var factors = n.Factors();
         foreach (var f in factors)
         {
-          if (f == n) continue;
+          if (f == n) { continue; }
           sum += f;
         }
 
         table[n] = sum;
-        nodes[n] = new ChainNode { Value = n };
+        nodes[n] = new ChainNode {Value = n};
       }
 
       // go through the numbers and setup the chain
-      for (int i = 1; i <= Max; ++i)
+      for (var i = 1; i <= Max; ++i)
       {
         var j = table[i];
         if (j <= Max)
@@ -64,7 +58,7 @@ namespace ProjectEuler
       var maxChain = new List<int>();
 
       // go through and generate the chain
-      for (int N = 28; N <= Max; ++N)
+      for (var N = 28; N <= Max; ++N)
       {
         // create a dictionary to hold the chain
         var chain = new Dictionary<int, bool>();
@@ -100,8 +94,7 @@ namespace ProjectEuler
             // this is an amicable chain, so stop
             break;
           }
-        }
-        while (true);
+        } while (true);
 
         // if the chain is longer, than save it
         if (chain.Count > maxChain.Count)

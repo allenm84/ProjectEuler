@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem066 : Problem064
   {
-    public override int Number { get { return 66; } }
+    public override int Number
+    {
+      get { return 66; }
+    }
 
     public override object Solve()
     {
@@ -23,20 +20,20 @@ namespace ProjectEuler
 
       // keep a table of perfect squares
       var squares = new Dictionary<int, bool>();
-      for (int i = 1; i <= 100; ++i)
+      for (var i = 1; i <= 100; ++i)
       {
         squares[(i * i)] = true;
       }
 
       // we store the maximum A value and the D value associated with it
       BigInteger maxA = 0;
-      int maxD = 0;
+      var maxD = 0;
 
       // go through the D values
-      for (int D = 1; D <= 1000; ++D)
+      for (var D = 1; D <= 1000; ++D)
       {
         // if this is a perfect square, then continue
-        if (squares.ContainsKey(D)) continue;
+        if (squares.ContainsKey(D)) { continue; }
         var sqrt = GetSqrt(D).ToArray();
 
         // k is odd, continue
@@ -47,7 +44,7 @@ namespace ProjectEuler
 
         // use the fundamental recurrence formula to find the (x,y) values that
         // satisfy the equation. Here, an is always 1 since we're taking the square root.
-        for(int n = 0; n < sqrt.Length; ++n)
+        for (var n = 0; n < sqrt.Length; ++n)
         {
           var b = sqrt[n];
 

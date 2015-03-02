@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
 
 namespace ProjectEuler
 {
   public class Problem052 : EulerProblem
   {
-    public override int Number { get { return 52; } }
+    public override int Number
+    {
+      get { return 52; }
+    }
 
     public override object Solve()
     {

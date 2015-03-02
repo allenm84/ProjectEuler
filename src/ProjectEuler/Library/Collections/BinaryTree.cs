@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections;
 
 namespace ProjectEuler
 {
@@ -12,26 +12,8 @@ namespace ProjectEuler
   /// <typeparam name="T">The tree can contain any type, but you are required to provide your own comparison function.</typeparam>
   public class BinaryTree<T>
   {
-    /// <summary>
-    /// The tree is build up out of BinaryTreeNode instances
-    /// </summary>
-    class BinaryTreeNode
-    {
-      public BinaryTreeNode Left;
-      public BinaryTreeNode Right;
-      public BinaryTreeNode Parent;
-      public T Data;
-
-      public BinaryTreeNode()
-      {
-        Left = null;
-        Right = null;
-        Parent = null;
-      }
-    }
-
-    BinaryTreeNode Root;
-    Comparison<T> CompareFunction;
+    private Comparison<T> CompareFunction;
+    private BinaryTreeNode Root;
 
     /// <summary>
     /// The BinaryTree constructor requires that we pass a comparison function. We need one as generics can only
@@ -73,7 +55,7 @@ namespace ProjectEuler
     /// <param name="Value">The value to insert into tree.</param>
     public void Add(T Value)
     {
-      BinaryTreeNode child = new BinaryTreeNode();
+      var child = new BinaryTreeNode();
       child.Data = Value;
 
       // Is the tree empty? Make the root the new child
@@ -84,14 +66,15 @@ namespace ProjectEuler
       else
       {
         // Start from the root of the tree
-        BinaryTreeNode Iterator = Root;
+        var Iterator = Root;
         while (true)
         {
           // Compare the value to insert with the value in the current tree node
-          int Compare = CompareFunction(Value, Iterator.Data);
+          var Compare = CompareFunction(Value, Iterator.Data);
           // The value is smaller or equal to the current node, we need to store it on the left side
           // We test for equivalence as we allow duplicates (!)
           if (Compare <= 0)
+          {
             if (Iterator.Left != null)
             {
               // Travel further left
@@ -105,12 +88,13 @@ namespace ProjectEuler
               child.Parent = Iterator;
               break;
             }
+          }
           if (Compare > 0)
+          {
             if (Iterator.Right != null)
             {
               // Continue to travel right
               Iterator = Iterator.Right;
-              continue;
             }
             else
             {
@@ -119,6 +103,7 @@ namespace ProjectEuler
               child.Parent = Iterator;
               break;
             }
+          }
         }
       }
     }
@@ -130,12 +115,12 @@ namespace ProjectEuler
     /// <returns>True if found, False if not found</returns>
     public bool Find(T Value)
     {
-      BinaryTreeNode Iterator = Root;
+      var Iterator = Root;
       while (Iterator != null)
       {
-        int Compare = CompareFunction(Value, Iterator.Data);
+        var Compare = CompareFunction(Value, Iterator.Data);
         // Did we find the value ?
-        if (Compare == 0) return true;
+        if (Compare == 0) { return true; }
         if (Compare < 0)
         {
           // Travel left
@@ -154,9 +139,9 @@ namespace ProjectEuler
     /// </summary>
     /// <param name="start">The sub-tree starting point</param>
     /// <returns></returns>
-    BinaryTreeNode FindMostLeft(BinaryTreeNode start)
+    private BinaryTreeNode FindMostLeft(BinaryTreeNode start)
     {
-      BinaryTreeNode node = start;
+      var node = start;
       while (true)
       {
         if (node.Left != null)
@@ -178,19 +163,23 @@ namespace ProjectEuler
       return new BinaryTreeEnumerator(this);
     }
 
+    #region Nested type: BinaryTreeEnumerator
+
     /// <summary>
     /// The BinaryTreeEnumerator implements the IEnumerator allowing foreach enumeration of the tree
     /// </summary>
     public class BinaryTreeEnumerator : IEnumerator<T>
     {
-      BinaryTreeNode current;
-      BinaryTree<T> theTree;
+      private BinaryTreeNode current;
+      private BinaryTree<T> theTree;
 
       public BinaryTreeEnumerator(BinaryTree<T> tree)
       {
         theTree = tree;
         current = null;
       }
+
+      #region IEnumerator<T> Members
 
       /// <summary>
       /// The MoveNext function traverses the tree in sorted order.
@@ -200,16 +189,20 @@ namespace ProjectEuler
       {
         // For the first entry, find the lowest valued node in the tree
         if (current == null)
+        {
           current = theTree.FindMostLeft(theTree.Root);
+        }
         else
         {
           // Can we go right-left?
           if (current.Right != null)
+          {
             current = theTree.FindMostLeft(current.Right);
+          }
           else
           {
             // Note the value we have found
-            T CurrentValue = current.Data;
+            var CurrentValue = current.Data;
 
             // Go up the tree until we find a value larger than the largest we have
             // already found (or if we reach the root of the tree)
@@ -218,12 +211,11 @@ namespace ProjectEuler
               current = current.Parent;
               if (current != null)
               {
-                int Compare = theTree.CompareFunction(current.Data, CurrentValue);
-                if (Compare < 0) continue;
+                var Compare = theTree.CompareFunction(current.Data, CurrentValue);
+                if (Compare < 0) { continue; }
               }
               break;
             }
-
           }
         }
         return (current != null);
@@ -234,7 +226,9 @@ namespace ProjectEuler
         get
         {
           if (current == null)
+          {
             throw new InvalidOperationException();
+          }
           return current.Data;
         }
       }
@@ -244,13 +238,45 @@ namespace ProjectEuler
         get
         {
           if (current == null)
+          {
             throw new InvalidOperationException();
+          }
           return current.Data;
         }
       }
 
-      public void Dispose() { }
-      public void Reset() { current = null; }
+      public void Dispose() {}
+
+      public void Reset()
+      {
+        current = null;
+      }
+
+      #endregion
     }
+
+    #endregion
+
+    #region Nested type: BinaryTreeNode
+
+    /// <summary>
+    /// The tree is build up out of BinaryTreeNode instances
+    /// </summary>
+    private class BinaryTreeNode
+    {
+      public T Data;
+      public BinaryTreeNode Left;
+      public BinaryTreeNode Parent;
+      public BinaryTreeNode Right;
+
+      public BinaryTreeNode()
+      {
+        Left = null;
+        Right = null;
+        Parent = null;
+      }
+    }
+
+    #endregion
   }
 }

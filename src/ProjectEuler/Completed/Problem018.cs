@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
 
 namespace ProjectEuler
 {
   public class Problem018 : EulerProblem
   {
-    public override int Number { get { return 18; } }
+    public override int Number
+    {
+      get { return 18; }
+    }
 
     public override object Solve()
     {
@@ -23,15 +21,15 @@ namespace ProjectEuler
     protected long MaxPathFromTree(string data)
     {
       var tree = data
-        .Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-        .Select(line => line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+        .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries)
+        .Select(line => line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries))
         .Select(arr => arr.Select(v => Convert.ToInt64(v)).ToArray())
         .ToArray();
 
-      for (int i = tree.Length - 2; i >= 0; i--)
+      for (var i = tree.Length - 2; i >= 0; i--)
       {
-        int below = i + 1;
-        for (int j = 0; j < tree[i].Length; j++)
+        var below = i + 1;
+        for (var j = 0; j < tree[i].Length; j++)
         {
           /// starting from the second to last row, reduce the tree.
           /// take each node and the maximum value from the set

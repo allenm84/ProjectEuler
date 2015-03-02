@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
 
 namespace ProjectEuler
 {
   public class Problem054 : EulerProblem
   {
-    public override int Number { get { return 54; } }
+    public override int Number
+    {
+      get { return 54; }
+    }
 
     public override object Solve()
     {
       return Resources.Problem054Data
-        .Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+        .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries)
         .Select(line => PlayerOneWins(line))
         .Count(l => l);
     }

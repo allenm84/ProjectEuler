@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
 using System.Common.Extensions;
+using System.Linq;
+using System.Numerics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem196 : EulerProblem
   {
-    public override int Number { get { return 196; } }
+    public override int Number
+    {
+      get { return 196; }
+    }
 
     public override object Solve()
     {
       //return new Solution1().GetSolution();
       return new Solution2().GetSolution();
     }
+
+    #region Nested type: Solution1
 
     private class Solution1 : EulerSolution
     {
@@ -41,46 +38,46 @@ namespace ProjectEuler
 
       private IEnumerable<int[]> GetNeighbors(int column, int row)
       {
-        var mods = new int[][]
+        var mods = new[]
         {
           // above
-          new int[] { -1, -1 },
-          new int[] { 0, -1 },
-          new int[] { 1, -1 },
+          new[] {-1, -1},
+          new[] {0, -1},
+          new[] {1, -1},
 
           // same row
-          new int[] { -1, 0 },
-          new int[] { 1, 0 },
+          new[] {-1, 0},
+          new[] {1, 0},
 
           // below
-          new int[] { -1, 1 },
-          new int[] { 0, 1 },
-          new int[] { 1, 1 },
+          new[] {-1, 1},
+          new[] {0, 1},
+          new[] {1, 1}
         };
 
         var columns = row;
 
         int c = 0, r = 0;
-        for (int m = 0; m < mods.Length; ++m)
+        for (var m = 0; m < mods.Length; ++m)
         {
           // retrieve the index
           c = column + mods[m][0];
           r = row + mods[m][1];
 
           // if the index of the column is too far left, then continue
-          if (c < 1) continue;
+          if (c < 1) { continue; }
 
           // if the row is above me, and the column is too far right, then continue
-          if (r == row - 1 && c > (columns - 1)) continue;
+          if (r == row - 1 && c > (columns - 1)) { continue; }
 
-          // if the row is the same as me, and the column is too far right, then continue
-          else if (r == row && c > columns) continue;
+            // if the row is the same as me, and the column is too far right, then continue
+          if (r == row && c > columns) { continue; }
 
-          // if the row is below me, and the column is too far right, then continue
-          else if (r == row + 1 && c > (columns + 1)) continue;
+            // if the row is below me, and the column is too far right, then continue
+          if (r == row + 1 && c > (columns + 1)) { continue; }
 
           // return the index
-          yield return new int[] { c, r };
+          yield return new[] {c, r};
         }
       }
 
@@ -89,15 +86,15 @@ namespace ProjectEuler
         var n = GetValue(1, row);
         var sum = 0L;
 
-        for (int i = 1; i <= row; ++i, ++n)
+        for (var i = 1; i <= row; ++i, ++n)
         {
           if (IsPrime(n))
           {
             // lets go through our neigbors which are also prime
-            bool directNeighborsPrime = false;
-            bool neighborsNeighborsPrime = false;
+            var directNeighborsPrime = false;
+            var neighborsNeighborsPrime = false;
 
-            int neighborPrimeCount = 0;
+            var neighborPrimeCount = 0;
             foreach (var idx in GetNeighbors(i, row))
             {
               // if the value at this index is prime
@@ -129,12 +126,17 @@ namespace ProjectEuler
       }
     }
 
+    #endregion
+
+    #region Nested type: Solution2
+
     /// <summary>Solution from lg5293 in forums</summary>
     private class Solution2 : EulerSolution
     {
+      private int idx;
       private bool[] isPrime;
+      private int len;
       private int[] prime;
-      private int idx, len;
       private bool[][] sieve, vis;
 
       /// <summary>Solution from lg5293 in forums</summary>
@@ -153,24 +155,28 @@ namespace ProjectEuler
         sieve = new bool[5][];
         vis = new bool[5][];
 
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
           sieve[i] = new bool[row - 2 + i];
           vis[i] = new bool[row - 2 + i];
-          for (int j = 0; j < sieve[i].Length; j++)
+          for (var j = 0; j < sieve[i].Length; j++)
+          {
             sieve[i][j] = true;
+          }
         }
 
-        for (int i = 2; i < len; i++)
+        for (var i = 2; i < len; i++)
         {
           if (isPrime[i])
           {
-            int start = (i - (int)((((long)(row - 3) * (row - 2)) / 2 + 1) % i)) % i;
-            for (int j = 0; j < 5; j++)
+            var start = (i - (int)((((long)(row - 3) * (row - 2)) / 2 + 1) % i)) % i;
+            for (var j = 0; j < 5; j++)
             {
-              int k = start;
+              var k = start;
               for (; k < sieve[j].Length; k += i)
+              {
                 sieve[j][k] = false;
+              }
               k -= i;
               start = i - (sieve[j].Length - k);
             }
@@ -178,19 +184,25 @@ namespace ProjectEuler
         }
 
         long sum = 0, off = (long)(row - 1) * (row) / 2 + 1;
-        for (int i = 0; i < sieve[2].Length; i++)
+        for (var i = 0; i < sieve[2].Length; i++)
+        {
           if (sieve[2][i])
+          {
             if (vis[2][i] || mark(2, i) >= 3)
+            {
               sum += off + i;
+            }
+          }
+        }
 
         return sum;
       }
 
       private byte mark(int row, int col)
       {
-        if (row < 0 || row > 4 || col < 0 || col > sieve[row].Length - 1) return 0;
-        if (vis[row][col]) return 0;
-        if (!sieve[row][col]) return 0;
+        if (row < 0 || row > 4 || col < 0 || col > sieve[row].Length - 1) { return 0; }
+        if (vis[row][col]) { return 0; }
+        if (!sieve[row][col]) { return 0; }
         vis[row][col] = true;
         byte count = 1;
         count += mark(row - 1, col);
@@ -209,19 +221,24 @@ namespace ProjectEuler
       {
         isPrime = new bool[len + 1];
         prime = new int[len / 2];
-        isPrime[2] = true; prime[idx++] = 2;
+        isPrime[2] = true;
+        prime[idx++] = 2;
         idx = 0;
-        for (int i = 3; i <= len; i += 2) isPrime[i] = true;
-        for (int i = 3; i <= len; i += 2)
+        for (var i = 3; i <= len; i += 2) { isPrime[i] = true; }
+        for (var i = 3; i <= len; i += 2)
         {
           if (isPrime[i])
           {
             prime[idx++] = i;
-            for (int j = i + i; j <= len; j += i)
+            for (var j = i + i; j <= len; j += i)
+            {
               isPrime[j] = false;
+            }
           }
         }
       }
     }
+
+    #endregion
   }
 }

@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
 
 namespace ProjectEuler
 {
   public class Problem115 : EulerProblem
   {
-    public override int Number { get { return 115; } }
+    public override int Number
+    {
+      get { return 115; }
+    }
 
     public override object Solve()
     {
@@ -29,9 +23,9 @@ namespace ProjectEuler
        * filled.
        */
 
-      int oneMillion = 1000000;
-      int m = 50;
-      for (int n = 100; true; ++n)
+      var oneMillion = 1000000;
+      var m = 50;
+      for (var n = 100;; ++n)
       {
         var count = FillCount(m, n);
         if (count > oneMillion)
@@ -51,22 +45,22 @@ namespace ProjectEuler
     {
       // a row measuring n units in length
       // has red blocks with a minimum of m units.
-      int[] P = new int[n + 1];
+      var P = new int[n + 1];
 
       // every length has the empty solution
-      for (int i = 0; i < P.Length; i++)
+      for (var i = 0; i < P.Length; i++)
       {
         P[i] = 1;
       }
 
       // length of the row
-      for (int length = m; length < P.Length; length++)
+      for (var length = m; length < P.Length; length++)
       {
         // length of first tile
-        for (int t = m; t <= length; t++)
+        for (var t = m; t <= length; t++)
         {
           // amount of blocks left free from the left
-          for (int start = 0; start <= length - m; start++)
+          for (var start = 0; start <= length - m; start++)
           {
             // check if tile of length t fits in remaining space,
             // letting start blocks from left free

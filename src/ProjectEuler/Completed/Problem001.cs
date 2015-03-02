@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
 
 namespace ProjectEuler
 {
   public class Problem001 : EulerProblem
   {
-    public override int Number { get { return 1; } }
+    public override int Number
+    {
+      get { return 1; }
+    }
 
     public override object Solve()
     {

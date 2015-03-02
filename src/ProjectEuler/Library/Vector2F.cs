@@ -1,60 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Globalization;
 
 namespace ProjectEuler
 {
   /// <summary>Defines a vector with two components.</summary>
   public struct Vector2F : IEquatable<Vector2F>
   {
-    /// <summary>Gets or sets the x-component of the vector.</summary>
-    public float X;
-
-    /// <summary>Gets or sets the y-component of the vector.</summary>
-    public float Y;
-
     private static Vector2F _zero = default(Vector2F);
     private static Vector2F _one = new Vector2F(1f, 1f);
     private static Vector2F _unitX = new Vector2F(1f, 0f);
     private static Vector2F _unitY = new Vector2F(0f, 1f);
 
-    /// <summary>Returns a Vector2 with all of its components set to zero.</summary>
-    public static Vector2F Zero
-    {
-      get
-      {
-        return Vector2F._zero;
-      }
-    }
+    /// <summary>Gets or sets the x-component of the vector.</summary>
+    public float X;
 
-    /// <summary>Returns a Vector2 with both of its components set to one.</summary>
-    public static Vector2F One
-    {
-      get
-      {
-        return Vector2F._one;
-      }
-    }
-
-    /// <summary>Returns the unit vector for the x-axis.</summary>
-    public static Vector2F UnitX
-    {
-      get
-      {
-        return Vector2F._unitX;
-      }
-    }
-
-    /// <summary>Returns the unit vector for the y-axis.</summary>
-    public static Vector2F UnitY
-    {
-      get
-      {
-        return Vector2F._unitY;
-      }
-    }
+    /// <summary>Gets or sets the y-component of the vector.</summary>
+    public float Y;
 
     /// <summary>Initializes a new instance of Vector2.</summary>
     /// <param name="x">Initial value for the x-component of the vector.</param>
@@ -73,16 +37,31 @@ namespace ProjectEuler
       this.X = value;
     }
 
-    /// <summary>Retrieves a string representation of the current object.</summary>
-    public override string ToString()
+    /// <summary>Returns a Vector2 with all of its components set to zero.</summary>
+    public static Vector2F Zero
     {
-      CultureInfo currentCulture = CultureInfo.CurrentCulture;
-      return string.Format(currentCulture, "{{X:{0} Y:{1}}}", new object[]
-			{
-				this.X.ToString(currentCulture), 
-				this.Y.ToString(currentCulture)
-			});
+      get { return _zero; }
     }
+
+    /// <summary>Returns a Vector2 with both of its components set to one.</summary>
+    public static Vector2F One
+    {
+      get { return _one; }
+    }
+
+    /// <summary>Returns the unit vector for the x-axis.</summary>
+    public static Vector2F UnitX
+    {
+      get { return _unitX; }
+    }
+
+    /// <summary>Returns the unit vector for the y-axis.</summary>
+    public static Vector2F UnitY
+    {
+      get { return _unitY; }
+    }
+
+    #region IEquatable<Vector2F> Members
 
     /// <summary>Determines whether the specified Object is equal to the Vector2.</summary>
     /// <param name="other">The Object to compare with the current Vector2.</param>
@@ -91,11 +70,24 @@ namespace ProjectEuler
       return this.X == other.X && this.Y == other.Y;
     }
 
+    #endregion
+
+    /// <summary>Retrieves a string representation of the current object.</summary>
+    public override string ToString()
+    {
+      var currentCulture = CultureInfo.CurrentCulture;
+      return string.Format(currentCulture, "{{X:{0} Y:{1}}}", new object[]
+      {
+        this.X.ToString(currentCulture),
+        this.Y.ToString(currentCulture)
+      });
+    }
+
     /// <summary>Returns a value that indicates whether the current instance is equal to a specified object.</summary>
     /// <param name="obj">Object to make the comparison with.</param>
     public override bool Equals(object obj)
     {
-      bool result = false;
+      var result = false;
       if (obj is Vector2F)
       {
         result = this.Equals((Vector2F)obj);
@@ -112,8 +104,8 @@ namespace ProjectEuler
     /// <summary>Calculates the length of the vector.</summary>
     public float Length()
     {
-      float num = this.X * this.X + this.Y * this.Y;
-      return (float)Math.Sqrt((double)num);
+      var num = this.X * this.X + this.Y * this.Y;
+      return (float)Math.Sqrt(num);
     }
 
     /// <summary>Calculates the length of the vector squared.</summary>
@@ -127,10 +119,10 @@ namespace ProjectEuler
     /// <param name="value2">Source vector.</param>
     public static float Distance(Vector2F value1, Vector2F value2)
     {
-      float num = value1.X - value2.X;
-      float num2 = value1.Y - value2.Y;
-      float num3 = num * num + num2 * num2;
-      return (float)Math.Sqrt((double)num3);
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
+      var num3 = num * num + num2 * num2;
+      return (float)Math.Sqrt(num3);
     }
 
     /// <summary>Calculates the distance between two vectors.</summary>
@@ -139,10 +131,10 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The distance between the vectors.</param>
     public static void Distance(ref Vector2F value1, ref Vector2F value2, out float result)
     {
-      float num = value1.X - value2.X;
-      float num2 = value1.Y - value2.Y;
-      float num3 = num * num + num2 * num2;
-      result = (float)Math.Sqrt((double)num3);
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
+      var num3 = num * num + num2 * num2;
+      result = (float)Math.Sqrt(num3);
     }
 
     /// <summary>Calculates the distance between two vectors squared.</summary>
@@ -150,8 +142,8 @@ namespace ProjectEuler
     /// <param name="value2">Source vector.</param>
     public static float DistanceSquared(Vector2F value1, Vector2F value2)
     {
-      float num = value1.X - value2.X;
-      float num2 = value1.Y - value2.Y;
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
       return num * num + num2 * num2;
     }
 
@@ -161,8 +153,8 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The distance between the vectors squared.</param>
     public static void DistanceSquared(ref Vector2F value1, ref Vector2F value2, out float result)
     {
-      float num = value1.X - value2.X;
-      float num2 = value1.Y - value2.Y;
+      var num = value1.X - value2.X;
+      var num2 = value1.Y - value2.Y;
       result = num * num + num2 * num2;
     }
 
@@ -186,8 +178,8 @@ namespace ProjectEuler
     /// <summary>Turns the current vector into a unit vector. The result is a vector one unit in length pointing in the same direction as the original vector.</summary>
     public void Normalize()
     {
-      float num = this.X * this.X + this.Y * this.Y;
-      float num2 = 1f / (float)Math.Sqrt((double)num);
+      var num = this.X * this.X + this.Y * this.Y;
+      var num2 = 1f / (float)Math.Sqrt(num);
       this.X *= num2;
       this.Y *= num2;
     }
@@ -196,8 +188,8 @@ namespace ProjectEuler
     /// <param name="value">Source Vector2.</param>
     public static Vector2F Normalize(Vector2F value)
     {
-      float num = value.X * value.X + value.Y * value.Y;
-      float num2 = 1f / (float)Math.Sqrt((double)num);
+      var num = value.X * value.X + value.Y * value.Y;
+      var num2 = 1f / (float)Math.Sqrt(num);
       Vector2F result;
       result.X = value.X * num2;
       result.Y = value.Y * num2;
@@ -209,8 +201,8 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] Normalized vector.</param>
     public static void Normalize(ref Vector2F value, out Vector2F result)
     {
-      float num = value.X * value.X + value.Y * value.Y;
-      float num2 = 1f / (float)Math.Sqrt((double)num);
+      var num = value.X * value.X + value.Y * value.Y;
+      var num2 = 1f / (float)Math.Sqrt(num);
       result.X = value.X * num2;
       result.Y = value.Y * num2;
     }
@@ -220,7 +212,7 @@ namespace ProjectEuler
     /// <param name="normal">Normal of vector.</param>
     public static Vector2F Reflect(Vector2F vector, Vector2F normal)
     {
-      float num = vector.X * normal.X + vector.Y * normal.Y;
+      var num = vector.X * normal.X + vector.Y * normal.Y;
       Vector2F result;
       result.X = vector.X - 2f * num * normal.X;
       result.Y = vector.Y - 2f * num * normal.Y;
@@ -233,7 +225,7 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The created reflect vector.</param>
     public static void Reflect(ref Vector2F vector, ref Vector2F normal, out Vector2F result)
     {
-      float num = vector.X * normal.X + vector.Y * normal.Y;
+      var num = vector.X * normal.X + vector.Y * normal.Y;
       result.X = vector.X - 2f * num * normal.X;
       result.Y = vector.Y - 2f * num * normal.Y;
     }
@@ -286,10 +278,10 @@ namespace ProjectEuler
     /// <param name="max">The maximum value.</param>
     public static Vector2F Clamp(Vector2F value1, Vector2F min, Vector2F max)
     {
-      float num = value1.X;
+      var num = value1.X;
       num = ((num > max.X) ? max.X : num);
       num = ((num < min.X) ? min.X : num);
-      float num2 = value1.Y;
+      var num2 = value1.Y;
       num2 = ((num2 > max.Y) ? max.Y : num2);
       num2 = ((num2 < min.Y) ? min.Y : num2);
       Vector2F result;
@@ -305,10 +297,10 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The clamped value.</param>
     public static void Clamp(ref Vector2F value1, ref Vector2F min, ref Vector2F max, out Vector2F result)
     {
-      float num = value1.X;
+      var num = value1.X;
       num = ((num > max.X) ? max.X : num);
       num = ((num < min.X) ? min.X : num);
-      float num2 = value1.Y;
+      var num2 = value1.Y;
       num2 = ((num2 > max.Y) ? max.Y : num2);
       num2 = ((num2 < min.Y) ? min.Y : num2);
       result.X = num;
@@ -400,8 +392,8 @@ namespace ProjectEuler
     /// <param name="amount">Weighting factor.</param>
     public static Vector2F CatmullRom(Vector2F value1, Vector2F value2, Vector2F value3, Vector2F value4, float amount)
     {
-      float num = amount * amount;
-      float num2 = amount * num;
+      var num = amount * amount;
+      var num2 = amount * num;
       Vector2F result;
       result.X = 0.5f * (2f * value2.X + (-value1.X + value3.X) * amount + (2f * value1.X - 5f * value2.X + 4f * value3.X - value4.X) * num + (-value1.X + 3f * value2.X - 3f * value3.X + value4.X) * num2);
       result.Y = 0.5f * (2f * value2.Y + (-value1.Y + value3.Y) * amount + (2f * value1.Y - 5f * value2.Y + 4f * value3.Y - value4.Y) * num + (-value1.Y + 3f * value2.Y - 3f * value3.Y + value4.Y) * num2);
@@ -417,8 +409,8 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] A vector that is the result of the Catmull-Rom interpolation.</param>
     public static void CatmullRom(ref Vector2F value1, ref Vector2F value2, ref Vector2F value3, ref Vector2F value4, float amount, out Vector2F result)
     {
-      float num = amount * amount;
-      float num2 = amount * num;
+      var num = amount * amount;
+      var num2 = amount * num;
       result.X = 0.5f * (2f * value2.X + (-value1.X + value3.X) * amount + (2f * value1.X - 5f * value2.X + 4f * value3.X - value4.X) * num + (-value1.X + 3f * value2.X - 3f * value3.X + value4.X) * num2);
       result.Y = 0.5f * (2f * value2.Y + (-value1.Y + value3.Y) * amount + (2f * value1.Y - 5f * value2.Y + 4f * value3.Y - value4.Y) * num + (-value1.Y + 3f * value2.Y - 3f * value3.Y + value4.Y) * num2);
     }
@@ -431,12 +423,12 @@ namespace ProjectEuler
     /// <param name="amount">Weighting factor.</param>
     public static Vector2F Hermite(Vector2F value1, Vector2F tangent1, Vector2F value2, Vector2F tangent2, float amount)
     {
-      float num = amount * amount;
-      float num2 = amount * num;
-      float num3 = 2f * num2 - 3f * num + 1f;
-      float num4 = -2f * num2 + 3f * num;
-      float num5 = num2 - 2f * num + amount;
-      float num6 = num2 - num;
+      var num = amount * amount;
+      var num2 = amount * num;
+      var num3 = 2f * num2 - 3f * num + 1f;
+      var num4 = -2f * num2 + 3f * num;
+      var num5 = num2 - 2f * num + amount;
+      var num6 = num2 - num;
       Vector2F result;
       result.X = value1.X * num3 + value2.X * num4 + tangent1.X * num5 + tangent2.X * num6;
       result.Y = value1.Y * num3 + value2.Y * num4 + tangent1.Y * num5 + tangent2.Y * num6;
@@ -452,12 +444,12 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The result of the Hermite spline interpolation.</param>
     public static void Hermite(ref Vector2F value1, ref Vector2F tangent1, ref Vector2F value2, ref Vector2F tangent2, float amount, out Vector2F result)
     {
-      float num = amount * amount;
-      float num2 = amount * num;
-      float num3 = 2f * num2 - 3f * num + 1f;
-      float num4 = -2f * num2 + 3f * num;
-      float num5 = num2 - 2f * num + amount;
-      float num6 = num2 - num;
+      var num = amount * amount;
+      var num2 = amount * num;
+      var num3 = 2f * num2 - 3f * num + 1f;
+      var num4 = -2f * num2 + 3f * num;
+      var num5 = num2 - 2f * num + amount;
+      var num6 = num2 - num;
       result.X = value1.X * num3 + value2.X * num4 + tangent1.X * num5 + tangent2.X * num6;
       result.Y = value1.Y * num3 + value2.Y * num4 + tangent1.Y * num5 + tangent2.Y * num6;
     }
@@ -591,7 +583,7 @@ namespace ProjectEuler
     /// <param name="divider">The divisor.</param>
     public static Vector2F Divide(Vector2F value1, float divider)
     {
-      float num = 1f / divider;
+      var num = 1f / divider;
       Vector2F result;
       result.X = value1.X * num;
       result.Y = value1.Y * num;
@@ -604,7 +596,7 @@ namespace ProjectEuler
     /// <param name="result">[OutAttribute] The result of the division.</param>
     public static void Divide(ref Vector2F value1, float divider, out Vector2F result)
     {
-      float num = 1f / divider;
+      var num = 1f / divider;
       result.X = value1.X * num;
       result.Y = value1.Y * num;
     }
@@ -706,7 +698,7 @@ namespace ProjectEuler
     /// <param name="divider">The divisor.</param>
     public static Vector2F operator /(Vector2F value1, float divider)
     {
-      float num = 1f / divider;
+      var num = 1f / divider;
       Vector2F result;
       result.X = value1.X * num;
       result.Y = value1.Y * num;

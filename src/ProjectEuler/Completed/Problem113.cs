@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem113 : EulerProblem
   {
-    public override int Number { get { return 113; } }
+    public override int Number
+    {
+      get { return 113; }
+    }
 
     public override object Solve()
     {
@@ -33,7 +28,7 @@ namespace ProjectEuler
        */
 
       BigInteger count = 0;
-      for (int i = 1; i < 101; ++i)
+      for (var i = 1; i < 101; ++i)
       {
         count += MathHelper.nCr(8 + i, i);
         count += MathHelper.nCr(9 + i, i);

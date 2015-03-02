@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
 
 namespace ProjectEuler
 {
   public class Problem033 : EulerProblem
   {
-    public override int Number { get { return 33; } }
+    public override int Number
+    {
+      get { return 33; }
+    }
 
     public override object Solve()
     {
@@ -21,26 +18,26 @@ namespace ProjectEuler
       decimal totalDenominator = 1;
 
       // go through the numerators
-      for (int num = 11; num < 99; ++num)
+      for (var num = 11; num < 99; ++num)
       {
         // retrieve the digits of the numerator
         var numDigits = num.ToString().ToArray();
 
         // if the numerator is a power of 10, then skip
-        if (numDigits.Last() == '0') continue;
+        if (numDigits.Last() == '0') { continue; }
 
         // go through the denominators
-        for (int den = num + 1; den < 100; ++den)
+        for (var den = num + 1; den < 100; ++den)
         {
           // retrieve the digits of the denominator
           var denDigits = den.ToString().ToArray();
 
           // if the denominator is a power of 10, then skip
-          if (denDigits.Last() == '0') continue;
+          if (denDigits.Last() == '0') { continue; }
 
           // does num[0] == den[1] or num[1] == den[0]?
-          bool num0_den1 = numDigits[0] == denDigits[1];
-          bool num1_den0 = numDigits[1] == denDigits[0];
+          var num0_den1 = numDigits[0] == denDigits[1];
+          var num1_den0 = numDigits[1] == denDigits[0];
           if (num0_den1 || num1_den0)
           {
             // this means that the two fraction values cancel. Lets strip off the
@@ -55,8 +52,8 @@ namespace ProjectEuler
             var denominator = Convert.ToDecimal(denDigit.ToString());
 
             // divide the two numbers
-            decimal simplifiedResult = numerator / denominator;
-            decimal originalResult = decimal.Divide(num, den);
+            var simplifiedResult = numerator / denominator;
+            var originalResult = decimal.Divide(num, den);
 
             // see if the results are equal
             if (simplifiedResult == originalResult)

@@ -2,67 +2,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
 
 namespace ProjectEuler
 {
   public class Problem017 : EulerProblem
   {
-    static string[] Text1 = new string[]
-      {
-        "Zero",
-        "One",
-        "Two",
-        "Three",
-        "Four",
-        "Five",
-        "Six",
-        "Seven",
-        "Eight",
-        "Nine"
-      };
+    private static string[] Text1 =
+    {
+      "Zero",
+      "One",
+      "Two",
+      "Three",
+      "Four",
+      "Five",
+      "Six",
+      "Seven",
+      "Eight",
+      "Nine"
+    };
 
-    static string[] TextTeens = new string[]
-      {
-        "Ten",
-        "Eleven",
-        "Twelve",
-        "Thirteen",
-        "Fourteen",
-        "Fifteen",
-        "Sixteen",
-        "Seventeen",
-        "Eighteen",
-        "Nineteen",
-      };
+    private static string[] TextTeens =
+    {
+      "Ten",
+      "Eleven",
+      "Twelve",
+      "Thirteen",
+      "Fourteen",
+      "Fifteen",
+      "Sixteen",
+      "Seventeen",
+      "Eighteen",
+      "Nineteen"
+    };
 
-    static string[] Text10 = new string[]
-      {
-        "Twenty",
-        "Thirty",
-        "Forty",
-        "Fifty",
-        "Sixty",
-        "Seventy",
-        "Eighty",
-        "Ninety",
-      };
+    private static string[] Text10 =
+    {
+      "Twenty",
+      "Thirty",
+      "Forty",
+      "Fifty",
+      "Sixty",
+      "Seventy",
+      "Eighty",
+      "Ninety"
+    };
 
-    static Problem017() { }
+    static Problem017() {}
 
-    public override int Number { get { return 17; } }
+    public override int Number
+    {
+      get { return 17; }
+    }
 
     public override object Solve()
     {
       // we include the number of letters for "one thousand" without spaces
-      int letterCount = 11;
-      for (int n = 1; n < 1000; ++n)
+      var letterCount = 11;
+      for (var n = 1; n < 1000; ++n)
       {
-        string text = Print(n);
+        var text = Print(n);
         letterCount += text.Count(c => char.IsLetter(c));
       }
       return letterCount;
@@ -70,13 +68,13 @@ namespace ProjectEuler
 
     private string Print(int n)
     {
-      int nMod100 = n % 100;
+      var nMod100 = n % 100;
 
-      int hundreds = n / 100;
-      int tens = (nMod100 / 10);
-      int ones = n % 10;
+      var hundreds = n / 100;
+      var tens = (nMod100 / 10);
+      var ones = n % 10;
 
-      StringBuilder sb = new StringBuilder();
+      var sb = new StringBuilder();
       if (hundreds > 0)
       {
         sb.AppendFormat("{0} Hundred", Text1[hundreds]);
@@ -89,14 +87,14 @@ namespace ProjectEuler
           sb.Append(" and ");
         }
 
-        if(tens < 2)
+        if (tens < 2)
         {
           sb.AppendFormat("{0}", TextTeens[nMod100 - 10]);
         }
         else
         {
           sb.AppendFormat("{0}", Text10[(nMod100 / 10) - 2]);
-          if(ones > 0)
+          if (ones > 0)
           {
             sb.AppendFormat(" {0}", Text1[ones]);
           }

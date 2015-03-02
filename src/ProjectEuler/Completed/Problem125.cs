@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem125 : EulerProblem
   {
-    public override int Number { get { return 125; } }
+    public override int Number
+    {
+      get { return 125; }
+    }
 
     public override object Solve()
     {
@@ -29,7 +23,7 @@ namespace ProjectEuler
 
       // so, starting at 1^2 generate until 10000^2
       var squares = new int[MaximumSqrt];
-      for (int n = 1; n <= MaximumSqrt; ++n)
+      for (var n = 1; n <= MaximumSqrt; ++n)
       {
         squares[n - 1] = n * n;
       }
@@ -38,11 +32,11 @@ namespace ProjectEuler
       var palindromeNumbers = new HashSet<int>();
 
       // go through the squares
-      for (int i = 0; i < squares.Length; ++i)
+      for (var i = 0; i < squares.Length; ++i)
       {
         // sum the squares together looking for palindromes
-        int sum = squares[i];
-        for (int d = i + 1; sum < Maximum && d < squares.Length; ++d)
+        var sum = squares[i];
+        for (var d = i + 1; sum < Maximum && d < squares.Length; ++d)
         {
           sum += squares[d];
           if (sum.IsPalindrome())

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace System.Common.Extensions
 {
-  public static partial class ArithmeticExtensions
+  public static class ArithmeticExtensions
   {
     /// <summary>
     /// 

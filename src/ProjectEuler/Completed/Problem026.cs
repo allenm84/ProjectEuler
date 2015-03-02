@@ -1,51 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem026 : EulerProblem
   {
-    public override int Number { get { return 26; } }
+    public override int Number
+    {
+      get { return 26; }
+    }
 
     public override object Solve()
     {
-      int zeroes = 2048;
-      BigInteger one = BigInteger.Parse("1".PadRight(zeroes, '0'));
+      var zeroes = 2048;
+      var one = BigInteger.Parse("1".PadRight(zeroes, '0'));
 
-      int max = 0;
-      int result = 11;
+      var max = 0;
+      var result = 11;
 
       for (var d = 11; d < 1000; ++d)
       {
         // create a big integer for the iterating value
-        BigInteger bd = new BigInteger(d);
+        var bd = new BigInteger(d);
 
         // retrieve the value
-        BigInteger value = one / bd;
+        var value = one / bd;
 
         // get the digits from the value
         var digits = value.ToString().ToArray();
 
         // add the first part of the digits
-        List<char> sequence = new List<char>();
+        var sequence = new List<char>();
         sequence.Add(digits[0]);
 
         // create a variable letting us know that the sequence is repeating
-        bool repeating = false;
+        var repeating = false;
 
         // go through the rest of the digits
-        for (int i = 1; i < digits.Length; ++i)
+        for (var i = 1; i < digits.Length; ++i)
         {
-          char c = digits[i];
-          bool add = true;
+          var c = digits[i];
+          var add = true;
           if (sequence[0] == c)
           {
             // this means that the current digit is equal to the first digit in the
@@ -60,10 +58,10 @@ namespace ProjectEuler
               // in the sequence.
 
               // first, create a string representing the current sequence
-              string a = string.Join("", sequence);
+              var a = string.Join("", sequence);
 
               // next, create a string representing the sequence of digits
-              string b = string.Join("", digits.Skip(i).Take(sequence.Count));
+              var b = string.Join("", digits.Skip(i).Take(sequence.Count));
               if (string.Equals(a, b))
               {
                 // this means that the current sequence is repeating, so just stop checking
@@ -88,7 +86,7 @@ namespace ProjectEuler
             }
           }
 
-          if(add)
+          if (add)
           {
             sequence.Add(c);
           }

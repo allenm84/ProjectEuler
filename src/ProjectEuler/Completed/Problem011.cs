@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ProjectEuler.Properties;
-using System.Threading.Tasks;
 
 namespace ProjectEuler
 {
   public class Problem011 : EulerProblem
   {
-    public override int Number { get { return 11; } }
+    public override int Number
+    {
+      get { return 11; }
+    }
 
     public override object Solve()
     {
       var data = Resources.Problem011Data
-        .Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+        .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries)
         .Select(s => s.Split(' '))
         .ToArray();
 
-      int[,] matrix = new int[20, 20];
-      for (int c = 0; c < 20; ++c)
+      var matrix = new int[20, 20];
+      for (var c = 0; c < 20; ++c)
       {
-        for (int r = 0; r < 20; ++r)
+        for (var r = 0; r < 20; ++r)
         {
           matrix[c, r] = Convert.ToInt32(data[c][r]);
         }
       }
 
-      int prod = 1;
-      for (int c = 0; c < 20; ++c)
+      var prod = 1;
+      for (var c = 0; c < 20; ++c)
       {
-        for (int r = 0; r < 20; ++r)
+        for (var r = 0; r < 20; ++r)
         {
           // create an array to hold the values
           var values = new int[5];
@@ -59,11 +61,11 @@ namespace ProjectEuler
 
     private int MultValues(int cols, int rows, ref int[,] matrix, params int[] indices)
     {
-      int retval = 1;
-      for (int i = 0; i < indices.Length; i += 2)
+      var retval = 1;
+      for (var i = 0; i < indices.Length; i += 2)
       {
-        int c = indices[i];
-        int r = indices[i + 1];
+        var c = indices[i];
+        var r = indices[i + 1];
         if (-1 < c && c < cols && -1 < r && r < rows)
         {
           retval *= matrix[c, r];

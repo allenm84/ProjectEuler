@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections;
 using System.Threading.Tasks;
 
 namespace ProjectEuler
 {
   public class Atkin : IEnumerable<uint>
   {
-    private List<uint> primes;
     private uint limit;
+    private List<uint> primes;
 
     public Atkin(uint candidate)
     {
@@ -18,6 +18,23 @@ namespace ProjectEuler
       primes = new List<uint>();
       fill();
     }
+
+    #region IEnumerable<uint> Members
+
+    public IEnumerator<uint> GetEnumerator()
+    {
+      foreach (var p in primes)
+      {
+        yield return p;
+      }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
+
+    #endregion
 
     private void fill()
     {
@@ -32,15 +49,21 @@ namespace ProjectEuler
           var yy = y * y;
           var n = 4 * xx + yy;
           if (n <= limit && (n % 12 == 1 || n % 12 == 5))
+          {
             isPrime[n] ^= true;
+          }
 
           n = 3 * xx + yy;
           if (n <= limit && n % 12 == 7)
+          {
             isPrime[n] ^= true;
+          }
 
           n = 3 * xx - yy;
           if (x > y && n <= limit && n % 12 == 11)
+          {
             isPrime[n] ^= true;
+          }
         }
       });
 
@@ -54,24 +77,19 @@ namespace ProjectEuler
           primes.Add(n);
           var nn = n * n;
           for (var k = nn; k <= limit; k += nn)
+          {
             isPrime[k] = false;
+          }
         }
       }
 
       for (var n = sqrt + 1; n <= limit; n++)
+      {
         if (isPrime[n])
+        {
           primes.Add(n);
-    }
-
-    public IEnumerator<uint> GetEnumerator()
-    {
-      foreach (var p in primes)
-        yield return p;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
+        }
+      }
     }
   }
 }

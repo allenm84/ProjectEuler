@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
 using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem089 : EulerProblem
   {
-    static readonly Dictionary<char, short> table = new Dictionary<char, short>();
+    private static readonly Dictionary<char, short> table = new Dictionary<char, short>();
+
     static Problem089()
     {
       table.Add('I', 1);
@@ -27,8 +21,11 @@ namespace ProjectEuler
       table.Add('D', 500);
       table.Add('M', 1000);
     }
-      
-    public override int Number { get { return 89; } }
+
+    public override int Number
+    {
+      get { return 89; }
+    }
 
     public override object Solve()
     {
@@ -40,7 +37,7 @@ namespace ProjectEuler
 
     private string ToRomanNumeral(int n)
     {
-      StringBuilder sb = new StringBuilder();
+      var sb = new StringBuilder();
 
       // M = 1000. So, subtract until below 1000
       while (n >= 1000)
@@ -142,10 +139,10 @@ namespace ProjectEuler
       var chars = line.ToArray();
       var value = 0;
 
-      for (int i = 0; i < chars.Length; ++i)
+      for (var i = 0; i < chars.Length; ++i)
       {
-        char c = chars[i];
-        char next = chars.ElementAtOrDefault(i + 1);
+        var c = chars[i];
+        var next = chars.ElementAtOrDefault(i + 1);
 
         if (c == 'I' && (next == 'X' || next == 'V'))
         {

@@ -1,33 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem139 : EulerProblem
   {
-    public override int Number { get { return 139; } }
+    public override int Number
+    {
+      get { return 139; }
+    }
 
     public override object Solve()
     {
       const int MaxPerimeter = 100000000;
 
       // calculate the maximum limit
-      int limit = (int)Math.Sqrt(MaxPerimeter / 2);
+      var limit = (int)Math.Sqrt(MaxPerimeter / 2);
 
       // pre-generate the m values
       var values = new int[limit];
-      for (int i = 1; i < limit; ++i)
+      for (var i = 1; i < limit; ++i)
       {
         values[i] = i * i;
       }
@@ -36,43 +31,43 @@ namespace ProjectEuler
       BigInteger count = 0;
 
       // generate the valid pythagorean triples
-      for (int n = 1; n < limit; ++n)
+      for (var n = 1; n < limit; ++n)
       {
         // calculate n*n
-        int nn = values[n];
+        var nn = values[n];
 
-        for (int m = n + 1; m < limit; ++m)
+        for (var m = n + 1; m < limit; ++m)
         {
           // if not odd, then keep going
-          if ((n + m) % 2 == 0) continue;
+          if ((n + m) % 2 == 0) { continue; }
 
           // if not coprime, then keep going
-          if (MathHelper.GCD(m, n) != 1) continue;
+          if (MathHelper.GCD(m, n) != 1) { continue; }
 
           // calculate m*m
-          int mm = values[m];
+          var mm = values[m];
 
           // calculate a,b and c
-          int a = mm - nn;
-          int b = 2 * m * n;
-          int c = mm + nn;
+          var a = mm - nn;
+          var b = 2 * m * n;
+          var c = mm + nn;
 
           // now, cycle through the k values
-          for (int k = 1; true; ++k)
+          for (var k = 1;; ++k)
           {
             // calculate a,b and c
-            int ak = a * k;
-            int bk = b * k;
-            int ck = c * k;
+            var ak = a * k;
+            var bk = b * k;
+            var ck = c * k;
 
             // determine the perimeter
-            if ((ak + bk + ck) >= MaxPerimeter) break;
+            if ((ak + bk + ck) >= MaxPerimeter) { break; }
 
             // subtract the two
-            int d = Math.Abs(bk - ak);
+            var d = Math.Abs(bk - ak);
 
             // is this valid?
-            if ((ck % d) == 0) ++count;
+            if ((ck % d) == 0) { ++count; }
           }
         }
       }

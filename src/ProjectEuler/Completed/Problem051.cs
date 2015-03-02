@@ -1,35 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
 using Facet.Combinatorics;
-using System.Diagnostics;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem051 : EulerProblem
   {
-    public override int Number { get { return 51; } }
+    public override int Number
+    {
+      get { return 51; }
+    }
 
     public override object Solve()
     {
       var digits = "0123456789".ToCharArray();
-      int len = 7;
-      int minValue = int.MaxValue;
+      var len = 7;
+      var minValue = int.MaxValue;
 
       // len is the number of digits in the number
-      for (int dot = 1; dot < len; ++dot)
+      for (var dot = 1; dot < len; ++dot)
       {
         // dot is the number of dots within the number
-        int XCount = len - dot;
+        var XCount = len - dot;
         var pattern =
           Enumerable.Repeat('X', XCount).Concat(
-          Enumerable.Repeat('*', dot)).ToList();
+            Enumerable.Repeat('*', dot)).ToList();
 
         // permutate the values
         var permutations = new Permutations<char>(pattern);
@@ -41,9 +39,9 @@ namespace ProjectEuler
           var combinations = new Combinations<char>(digits, XCount, GenerateOption.WithRepetition);
           foreach (var insertions in combinations)
           {
-            int i = 0;
+            var i = 0;
             var text = value.ToArray();
-            for (int v = 0; v < text.Length; ++v)
+            for (var v = 0; v < text.Length; ++v)
             {
               if (text[v] == 'X')
               {
@@ -57,7 +55,7 @@ namespace ProjectEuler
             if (family.Count == 8)
             {
               // retrieve the min value
-              int min = family.Min();
+              var min = family.Min();
               if (min < minValue)
               {
                 minValue = min;
@@ -72,8 +70,8 @@ namespace ProjectEuler
 
     private List<int> GetFamily(char[] pattern)
     {
-      List<int> indices = new List<int>();
-      for (int j = 0; j < pattern.Length; ++j)
+      var indices = new List<int>();
+      for (var j = 0; j < pattern.Length; ++j)
       {
         if (pattern[j] == '*')
         {
@@ -81,17 +79,17 @@ namespace ProjectEuler
         }
       }
 
-      List<int> retval = new List<int>();
+      var retval = new List<int>();
       if (indices.Count > 0)
       {
-        for (char c = '0'; c <= '9'; ++c)
+        for (var c = '0'; c <= '9'; ++c)
         {
-          foreach (int i in indices)
+          foreach (var i in indices)
           {
             pattern[i] = c;
           }
 
-          int num = Convert.ToInt32(new string(pattern));
+          var num = Convert.ToInt32(new string(pattern));
           if (num.IsPrime())
           {
             retval.Add(num);

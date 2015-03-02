@@ -6,7 +6,7 @@ using System.Text;
 
 namespace System.Common.Extensions
 {
-  public static partial class NumericExtensions
+  public static class NumericExtensions
   {
     /// <summary>
     /// 

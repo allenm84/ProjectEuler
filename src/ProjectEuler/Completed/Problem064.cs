@@ -2,35 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
 
 namespace ProjectEuler
 {
   public class Problem064 : EulerProblem
   {
-    public override int Number { get { return 64; } }
+    public override int Number
+    {
+      get { return 64; }
+    }
 
     public override object Solve()
     {
       var squares = new Dictionary<int, bool>();
-      for (int i = 1; i <= 100; ++i)
+      for (var i = 1; i <= 100; ++i)
       {
         squares[(i * i)] = true;
       }
 
       var count = 4;
-      for (int N = 14; N <= 10000; ++N)
+      for (var N = 14; N <= 10000; ++N)
       {
         // if this is a perfect square, then continue
-        if (squares.ContainsKey(N)) continue;
+        if (squares.ContainsKey(N)) { continue; }
         var period = GetSqrt(N).Count() - 1;
-        if ((period % 2) == 1) ++count;
+        if ((period % 2) == 1) { ++count; }
       }
 
       return count;
@@ -64,9 +60,9 @@ namespace ProjectEuler
       while (true)
       {
         // calculate the next number
-        int mn = FMn(d, a, m);
-        int dn = FDn(S, mn, d);
-        int an = FAn(a0, mn, dn);
+        var mn = FMn(d, a, m);
+        var dn = FDn(S, mn, d);
+        var an = FAn(a0, mn, dn);
 
         // if the original is null, then set it
         if (original == null)

@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem120 : EulerProblem
   {
-    public override int Number { get { return 120; } }
+    public override int Number
+    {
+      get { return 120; }
+    }
 
     public override object Solve()
     {
@@ -36,23 +31,23 @@ namespace ProjectEuler
       // as you can see, the odd term (1,3,5) when using 0-based indices, is just
       // the term AFTER it times 3. The even terms are just incremented by 2 each time
 
-      int[] incrs = new int[] { 4, 12 };
-      int i = 1;
+      int[] incrs = {4, 12};
+      var i = 1;
 
-      int r1 = 6;
-      int r2 = 8;
+      var r1 = 6;
+      var r2 = 8;
 
       BigInteger sum = r1 + r2;
 
-      int a = 4;
+      var a = 4;
       while (a < 1000)
       {
-        int rnext = r2 + incrs[i];
+        var rnext = r2 + incrs[i];
         sum += rnext;
 
         if (i == 1)
         {
-          int next = incrs[0] + 2;
+          var next = incrs[0] + 2;
           incrs[i] = next * 3;
         }
         else

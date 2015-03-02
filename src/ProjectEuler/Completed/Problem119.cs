@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem119 : EulerProblem
   {
-    public override int Number { get { return 119; } }
+    public override int Number
+    {
+      get { return 119; }
+    }
 
     public override object Solve()
     {
       var aValues = new List<BigInteger>();
-      for (int n = 2; n <= 100; ++n)
+      for (var n = 2; n <= 100; ++n)
       {
-        for (int p = 2; p <= 10; ++p)
+        for (var p = 2; p <= 10; ++p)
         {
           var value = BigInteger.Pow(n, p);
           var sum = value.ToString().Sum(c => c - 48);

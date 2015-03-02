@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
 using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem098 : EulerProblem
   {
-    public override int Number { get { return 98; } }
+    public override int Number
+    {
+      get { return 98; }
+    }
 
     public override object Solve()
     {
@@ -37,15 +32,16 @@ namespace ProjectEuler
 
       // basically, we need to group all the anagram words together
       var wordGroups = (from w in words
-                    group w by k(w) into wg
-                    select new
-                    {
-                      Key = wg.Key,
-                      Count = wg.Count(),
-                      Values = wg.ToArray(),
-                    })
-                    .Where(a => a.Count > 1)
-                    .OrderByDescending(a => a.Key.Length);
+        group w by k(w)
+        into wg
+        select new
+        {
+          wg.Key,
+          Count = wg.Count(),
+          Values = wg.ToArray(),
+        })
+        .Where(a => a.Count > 1)
+        .OrderByDescending(a => a.Key.Length);
 
       // keep track of the maximum
       var maximum = 0;
@@ -55,15 +51,16 @@ namespace ProjectEuler
       {
         // retrieve all the squares that are "anagrams" themselves
         var candidates = (from s in GetMatchingSquares(wordGroup.Key)
-                          group s by k(s) into sg
-                          select new
-                          {
-                            Key = sg.Key,
-                            Count = sg.Count(),
-                            Squares = new HashSet<int>(sg.ToArray()),
-                          })
-                         .Where(a => a.Count > 1 && !a.Key.StartsWith("0"))
-                         .ToArray();
+          group s by k(s)
+          into sg
+          select new
+          {
+            sg.Key,
+            Count = sg.Count(),
+            Squares = new HashSet<int>(sg.ToArray()),
+          })
+          .Where(a => a.Count > 1 && !a.Key.StartsWith("0"))
+          .ToArray();
 
         // if candidates were actually found
         if (candidates.Length > 0)
@@ -71,10 +68,10 @@ namespace ProjectEuler
           // now, we need to go through the candidates and see if they match our specific
           // word pairs
           var values = wordGroup.Values;
-          for (int v1 = 0; v1 < values.Length; ++v1)
+          for (var v1 = 0; v1 < values.Length; ++v1)
           {
             var word1 = values[v1];
-            for (int v2 = v1 + 1; v2 < values.Length; ++v2)
+            for (var v2 = v1 + 1; v2 < values.Length; ++v2)
             {
               var word2 = values[v2];
               foreach (var candidate in candidates)
@@ -106,13 +103,13 @@ namespace ProjectEuler
         // lets see if 1296 mapped to word2 will produce a square
         var number = square.ToString().Distinct().ToArray();
         var table = new Dictionary<char, char>();
-        for (int i = 0; i < number.Length; ++i)
+        for (var i = 0; i < number.Length; ++i)
         {
           table[key[i]] = number[i];
         }
 
         var wordValue = new char[word2.Length];
-        for (int w = 0; w < wordValue.Length; ++w)
+        for (var w = 0; w < wordValue.Length; ++w)
         {
           wordValue[w] = table[word2[w]];
         }
@@ -137,7 +134,7 @@ namespace ProjectEuler
       {
         var square = (n * n);
         var squareText = square.ToString();
-        if (squareText.Length < key.Length) break;
+        if (squareText.Length < key.Length) { break; }
 
         var squareTextDistinct = squareText.Distinct().ToArray();
         if (squareTextDistinct.Length == distinctKey.Length)

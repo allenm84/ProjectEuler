@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem020 : EulerProblem
   {
-    public override int Number { get { return 20; } }
+    public override int Number
+    {
+      get { return 20; }
+    }
 
     public override object Solve()
     {
-      BigInteger prod = BigInteger.One;
-      for (int i = 100; i > 0; --i)
+      var prod = BigInteger.One;
+      for (var i = 100; i > 0; --i)
       {
-        BigInteger n = new BigInteger(i);
+        var n = new BigInteger(i);
         prod *= n;
       }
 

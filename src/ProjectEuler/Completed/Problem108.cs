@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem108 : EulerProblem
   {
-    public override int Number { get { return 108; } }
+    public override int Number
+    {
+      get { return 108; }
+    }
 
     public override object Solve()
     {
@@ -35,12 +29,12 @@ namespace ProjectEuler
 
       const int Limit = 1000;
       long incr = 2 * 3 * 5;
-      long n = incr * 11;
+      var n = incr * 11;
 
       var primes = new List<long>();
       nextPrimes(primes);
 
-      for (; ; n += incr)
+      for (;; n += incr)
       {
         var nn = n * n;
         var sols = (CountDivisors(ref nn, primes) + 1) >> 1;
@@ -58,7 +52,7 @@ namespace ProjectEuler
 
       while (x > 1)
       {
-        bool found = false;
+        var found = false;
         foreach (var p in primes)
         {
           if ((x % p) == 0)
@@ -84,10 +78,11 @@ namespace ProjectEuler
         }
       }
 
-      int prod = 1;
+      var prod = 1;
       var values = from f in factors
-                   group f by f into fGroup
-                   select fGroup.Count() + 1;
+        group f by f
+        into fGroup
+        select fGroup.Count() + 1;
       foreach (var v in values)
       {
         prod *= v;
@@ -97,8 +92,8 @@ namespace ProjectEuler
 
     private void nextPrimes(List<long> primes)
     {
-      int count = primes.Count + 100;
-      for (long i = primes.LastOrDefault() + 1; primes.Count < count; ++i)
+      var count = primes.Count + 100;
+      for (var i = primes.LastOrDefault() + 1; primes.Count < count; ++i)
       {
         if (i.IsPrime())
         {

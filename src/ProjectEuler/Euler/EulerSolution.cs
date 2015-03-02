@@ -7,11 +7,6 @@ namespace ProjectEuler
 {
   public abstract class EulerSolution
   {
-    public EulerSolution()
-    {
-
-    }
-
     public abstract object GetSolution();
   }
 }

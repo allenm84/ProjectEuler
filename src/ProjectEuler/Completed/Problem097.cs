@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem097 : EulerProblem
   {
-    public override int Number { get { return 97; } }
+    public override int Number
+    {
+      get { return 97; }
+    }
 
     public override object Solve()
     {
@@ -30,7 +25,7 @@ namespace ProjectEuler
       var power = 7830457;
 
       // go through the powers
-      for (int i = 1; i < power; ++i)
+      for (var i = 1; i < power; ++i)
       {
         previous = a;
         a += a;

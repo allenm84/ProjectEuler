@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Drawing;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem147 : EulerProblem
   {
-    public override int Number { get { return 147; } }
+    public override int Number
+    {
+      get { return 147; }
+    }
 
     public override object Solve()
     {
       //return new Solution1().GetSolution();
       return new Solution2().GetSolution();
     }
+
+    #region Nested type: Solution1
 
     /// <summary>MY original solution</summary>
     private class Solution1 : EulerSolution
@@ -35,9 +31,9 @@ namespace ProjectEuler
         const int maxR = 43;
 
         long sum = 0;
-        for (int rows = 1; rows <= maxR; ++rows)
+        for (var rows = 1; rows <= maxR; ++rows)
         {
-          for (int columns = 1; columns <= maxC; ++columns)
+          for (var columns = 1; columns <= maxC; ++columns)
           {
             sum += (CountDiagonals(columns, rows) + CountRectangles(columns, rows));
           }
@@ -48,7 +44,7 @@ namespace ProjectEuler
       private int CountDiagonals(int columns, int rows)
       {
         // create the return value
-        int count = 0;
+        var count = 0;
 
         // allocate the variables
         int r = 0, c = 0, downDistance = 0, i = 0, dx = 0, dy = 0;
@@ -67,11 +63,11 @@ namespace ProjectEuler
         // number of dots will be (2c + 1) x (2r + 1) where c,r are the number of columns
         // and rows in the original grid (respectively). Using the example of a 3x2 grid,
         // we have 7x5, or 7 columns and 5 rows of dots
-        bool[,] dots = new bool[(columns * 2) + 1, (rows * 2) + 1];
+        var dots = new bool[(columns * 2) + 1, (rows * 2) + 1];
 
         // after we create the matrix of dots, we need to mark which ones can be used
         // and which ones can't.
-        bool v = true;
+        var v = true;
         for (r = 0; r < dots.GetLength(1); ++r)
         {
           v = r % 2 == 0;
@@ -91,7 +87,7 @@ namespace ProjectEuler
         points.Add(new Point(1, -1));
 
         // keep track of the up distance
-        int upDistance = 1;
+        var upDistance = 1;
 
         while (true)
         {
@@ -120,7 +116,7 @@ namespace ProjectEuler
             {
               for (c = 0; c < dots.GetLength(0); ++c)
               {
-                if (!dots[c, r]) continue;
+                if (!dots[c, r]) { continue; }
 
                 // we can use this dot. Does the desired pattern exist?
                 all = true;
@@ -135,8 +131,8 @@ namespace ProjectEuler
                   // can use the dot specified by the index
                   all &=
                     (-1 < pt.X && pt.X < dots.GetLength(0)) &&
-                    (-1 < pt.Y && pt.Y < dots.GetLength(1)) &&
-                    dots[pt.X, pt.Y];
+                      (-1 < pt.Y && pt.Y < dots.GetLength(1)) &&
+                      dots[pt.X, pt.Y];
                 }
 
                 // if the desied pattern exists, then update the count
@@ -149,7 +145,7 @@ namespace ProjectEuler
             }
 
             // if the figure did not fit anywhere, then stop
-            if (!fitAnywhere) break;
+            if (!fitAnywhere) { break; }
           }
 
           // now, we need to go up and right again
@@ -175,7 +171,7 @@ namespace ProjectEuler
           // did we just go outside the grid?
           dx = maxX - minX;
           dy = maxY - minY;
-          if (dx > dots.GetLength(0) || dy > dots.GetLength(1)) break;
+          if (dx > dots.GetLength(0) || dy > dots.GetLength(1)) { break; }
 
           // add to the points
           points.Add(last);
@@ -188,7 +184,7 @@ namespace ProjectEuler
       private List<Point> Close(List<Point> figure, int upDistance, int downDistance)
       {
         var retval = new List<Point>(figure);
-        Point start = Point.Empty;
+        var start = Point.Empty;
 
         // go the distance!
         while ((downDistance--) > 0)
@@ -234,7 +230,7 @@ namespace ProjectEuler
               {
                 player.X = 0;
                 ++player.Y;
-                if (!grid.Contains(player)) break;
+                if (!grid.Contains(player)) { break; }
               }
             }
           }
@@ -244,25 +240,35 @@ namespace ProjectEuler
       }
     }
 
+    #endregion
+
+    #region Nested type: Solution2
+
     /// <summary>solution from tien in forums</summary>
     private class Solution2 : EulerSolution
     {
       public override object GetSolution()
       {
         long sum = 0;
-        for (int i = 1; i <= 47; i++)
-          for (int j = 1; j <= 43; j++)
+        for (var i = 1; i <= 47; i++)
+        {
+          for (var j = 1; j <= 43; j++)
+          {
             sum += f(i, j);
+          }
+        }
         return sum;
       }
 
       private long f(long m, long n)
       {
-        if (m < n) return f(n, m);
-        long sum = m * (m + 1) * n * (n + 1) / 4;
+        if (m < n) { return f(n, m); }
+        var sum = m * (m + 1) * n * (n + 1) / 4;
         sum += ((m + m - n) * (n * n * 4 - 1) - 3) * n / 6;
         return sum;
       }
     }
+
+    #endregion
   }
 }

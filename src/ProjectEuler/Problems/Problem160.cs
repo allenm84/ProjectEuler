@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem160 : EulerProblem
   {
-    public override int Number { get { return 160; } }
+    public override int Number
+    {
+      get { return 160; }
+    }
 
     public override object Solve()
     {
@@ -24,7 +19,7 @@ namespace ProjectEuler
       const long N = 2560000;
 
       BigInteger value = 1;
-      BigInteger max = BigInteger.Pow(10, 5);
+      var max = BigInteger.Pow(10, 5);
 
       for (long i = 1; i <= N; ++i)
       {
@@ -43,7 +38,9 @@ namespace ProjectEuler
       }
 
       while (value % 10 == 0)
+      {
         value /= 10;
+      }
       return value % max;
     }
   }

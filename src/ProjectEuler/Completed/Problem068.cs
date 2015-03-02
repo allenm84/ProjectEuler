@@ -2,30 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
 using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
 
 namespace ProjectEuler
 {
   public class Problem068 : EulerProblem
   {
-    protected class GonNode
+    public override int Number
     {
-      public byte Value1 { get; set; }
-      public byte Value2 { get; set; }
-      public byte Value3 { get; set; }
-      public int[] Indices { get; set; }
-      public GonNode Next { get; set; }
-
-      public int Sum { get { return Value1 + Value2 + Value3; } }
+      get { return 68; }
     }
-
-    public override int Number { get { return 68; } }
 
     public override object Solve()
     {
@@ -33,27 +19,27 @@ namespace ProjectEuler
       var z = 0;
 
       // create the n-gon graph array
-      var graph = Enumerable.Repeat(0, 5).Select(i => new GonNode()).ToArray(); 
-     
+      var graph = Enumerable.Repeat(0, 5).Select(i => new GonNode()).ToArray();
+
       // set up the indices. The indices indicate which number to retrieve from
       // the set, and in what order. Starting with the external node, then moving
       // inwards.
-      graph[z++].Indices = new int[] { 7, 1, 0 };
-      graph[z++].Indices = new int[] { 6, 0, 4 };
-      graph[z++].Indices = new int[] { 5, 4, 3 };
-      graph[z++].Indices = new int[] { 9, 3, 2 };
-      graph[z++].Indices = new int[] { 8, 2, 1 };
+      graph[z++].Indices = new[] {7, 1, 0};
+      graph[z++].Indices = new[] {6, 0, 4};
+      graph[z++].Indices = new[] {5, 4, 3};
+      graph[z++].Indices = new[] {9, 3, 2};
+      graph[z++].Indices = new[] {8, 2, 1};
 
       // create a function that will fill a gon node
       Action<GonNode, IList<byte>> fillNode = (node, data) =>
-        {
-          node.Value1 = (byte)(data[node.Indices[0]] + 1);
-          node.Value2 = (byte)(data[node.Indices[1]] + 1);
-          node.Value3 = (byte)(data[node.Indices[2]] + 1);
-        };
+      {
+        node.Value1 = (byte)(data[node.Indices[0]] + 1);
+        node.Value2 = (byte)(data[node.Indices[1]] + 1);
+        node.Value3 = (byte)(data[node.Indices[2]] + 1);
+      };
 
       // link the graph together
-      for (int i = 0; i < graph.Length; ++i)
+      for (var i = 0; i < graph.Length; ++i)
       {
         graph[i].Next = graph[(i + 1) % graph.Length];
       }
@@ -80,7 +66,7 @@ namespace ProjectEuler
         var target = graph[0].Sum;
 
         // verify that each node has the same value
-        if (!graph.All(g => g.Sum == target)) continue;
+        if (!graph.All(g => g.Sum == target)) { continue; }
 
         // order the graph by value1 (the external value)
         var min = graph.OrderBy(g => g.Value1).First();
@@ -96,14 +82,13 @@ namespace ProjectEuler
           bytes.Add(current.Value2);
           bytes.Add(current.Value3);
           current = current.Next;
-        }
-        while (current != min);
+        } while (current != min);
 
         // create a string from the bytes
         var concat = string.Concat(bytes);
 
         // skip if greater than 16
-        if (concat.Length > 16) continue;
+        if (concat.Length > 16) { continue; }
 
         // create a long from the values
         var match = Convert.ToInt64(concat);
@@ -115,5 +100,23 @@ namespace ProjectEuler
       // return the maximum
       return maximum;
     }
+
+    #region Nested type: GonNode
+
+    protected class GonNode
+    {
+      public byte Value1 { get; set; }
+      public byte Value2 { get; set; }
+      public byte Value3 { get; set; }
+      public int[] Indices { get; set; }
+      public GonNode Next { get; set; }
+
+      public int Sum
+      {
+        get { return Value1 + Value2 + Value3; }
+      }
+    }
+
+    #endregion
   }
 }

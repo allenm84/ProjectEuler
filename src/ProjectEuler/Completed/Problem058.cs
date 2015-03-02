@@ -1,31 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem058 : EulerProblem
   {
-    private class Diagonal
+    public override int Number
     {
-      public int Incr;
-      public int Value;
-      public Diagonal(int incr, int value)
-      {
-        Incr = incr;
-        Value = value;
-      }
+      get { return 58; }
     }
-
-    public override int Number { get { return 58; } }
 
     public override object Solve()
     {
@@ -41,7 +27,7 @@ namespace ProjectEuler
 
       double primeCount = 8;
       double diagonalCount = 13;
-      int sideLength = 7;
+      var sideLength = 7;
 
       // create a 
       var diagonals = new Diagonal[4];
@@ -54,7 +40,7 @@ namespace ProjectEuler
       // the next diagonalCount is +4
       while ((primeCount / diagonalCount) >= 0.1)
       {
-        for (int i = 0; i < 4; ++i)
+        for (var i = 0; i < 4; ++i)
         {
           var diagonal = diagonals[i];
           diagonal.Incr += 8;
@@ -71,5 +57,21 @@ namespace ProjectEuler
 
       return sideLength;
     }
+
+    #region Nested type: Diagonal
+
+    private class Diagonal
+    {
+      public int Incr;
+      public int Value;
+
+      public Diagonal(int incr, int value)
+      {
+        Incr = incr;
+        Value = value;
+      }
+    }
+
+    #endregion
   }
 }

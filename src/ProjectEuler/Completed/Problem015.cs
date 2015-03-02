@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
 using Facet.Combinatorics;
 
 namespace ProjectEuler
 {
   public class Problem015 : EulerProblem
   {
-    public override int Number { get { return 15; } }
+    public override int Number
+    {
+      get { return 15; }
+    }
 
     public override object Solve()
     {
@@ -32,7 +31,7 @@ namespace ProjectEuler
       var ones = Enumerable.Repeat('1', Size);
       var values = zeroes.Concat(ones).ToList();
 
-      Permutations<char> perm = new Permutations<char>(values);
+      var perm = new Permutations<char>(values);
       return perm.Count;
     }
   }

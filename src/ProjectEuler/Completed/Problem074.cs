@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem074 : EulerProblem
   {
-    public override int Number { get { return 74; } }
+    public override int Number
+    {
+      get { return 74; }
+    }
 
     public override object Solve()
     {
@@ -50,8 +46,8 @@ namespace ProjectEuler
       lengths[5044] = 4;
 
       // go through the other numbers
-      int count = 0;
-      for (int N = 0; N < 1000000; ++N)
+      var count = 0;
+      for (var N = 0; N < 1000000; ++N)
       {
         var chainCount = 1;
         var chain = new List<int>();

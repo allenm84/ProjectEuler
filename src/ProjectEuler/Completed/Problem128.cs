@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem128 : EulerProblem
   {
-    public override int Number { get { return 128; } }
+    public override int Number
+    {
+      get { return 128; }
+    }
 
     public override object Solve()
     {
@@ -33,13 +27,13 @@ namespace ProjectEuler
        */
 
       const int Target = 2000;
-      long[] T = new long[Target + 1];
+      var T = new long[Target + 1];
 
-      int S = 12;
+      var S = 12;
       long F = 8;
 
-      Func<long, bool> P = (n) => n.IsPrime();
-      for (int i = 3; i <= Target; F += S, S += 6)
+      Func<long, bool> P = n => n.IsPrime();
+      for (var i = 3; i <= Target; F += S, S += 6)
       {
         if (P(S - 1) && P(S + 1) && P(S + S + 5))
         {

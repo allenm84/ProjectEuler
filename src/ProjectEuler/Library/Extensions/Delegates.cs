@@ -5,7 +5,7 @@ using System.Text;
 
 namespace System.Common.Extensions
 {
-  public static partial class DelegateExtensions
+  public static class DelegateExtensions
   {
     /// <summary>
     /// 

@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem065 : EulerProblem
   {
-    public override int Number { get { return 65; } }
+    public override int Number
+    {
+      get { return 65; }
+    }
 
     public override object Solve()
     {
-      var hv = new BigInteger[] { 0, 1 };
-      var kv = new BigInteger[] { 1, 0 };
+      var hv = new BigInteger[] {0, 1};
+      var kv = new BigInteger[] {1, 0};
 
-      int c = 0;
-      int sum = 0;
+      var c = 0;
+      var sum = 0;
 
       foreach (var a in e_cf())
       {
@@ -52,7 +49,7 @@ namespace ProjectEuler
     private IEnumerable<int> e_cf()
     {
       yield return 2;
-      int num = 2;
+      var num = 2;
       while (num > 0)
       {
         yield return 1;

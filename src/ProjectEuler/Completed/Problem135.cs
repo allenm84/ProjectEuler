@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem135 : EulerProblem
   {
-    public override int Number { get { return 135; } }
+    public override int Number
+    {
+      get { return 135; }
+    }
 
     public override object Solve()
     {
@@ -33,22 +27,25 @@ namespace ProjectEuler
     protected uint v2RetrieveSolutionCount(uint maximumN, uint targetSolutionCount)
     {
       /* Taken from the project euler forums for p135 */
-      int[] z = new int[maximumN + 1];
+      var z = new int[maximumN + 1];
       for (uint p = 2; p <= maximumN; p++)
       {
-        uint a = 4 - p % 4;
+        var a = 4 - p % 4;
         uint n = 0;
         for (uint v = 0; v < (3 * p - a) / 4; v++)
         {
           n = p * (4 * v + a);
           if (n <= maximumN) { z[n]++; }
-          else { v = maximumN; }
+          else
+          { v = maximumN; }
         }
       }
 
       uint x = 0;
       for (uint i = 2; i <= maximumN; i++)
-      { if (z[i] == targetSolutionCount) { x++; } }
+      {
+        if (z[i] == targetSolutionCount) { x++; }
+      }
 
       return x;
     }
@@ -80,7 +77,7 @@ namespace ProjectEuler
       uint c = 1;
       uint cLimit = 4;
       uint retval = 0;
-      NumberTheory nt = new NumberTheory(maximumN);
+      var nt = new NumberTheory(maximumN);
 
       for (uint n = 1; n < maximumN; ++n, Update(ref b, ref c, ref cLimit))
       {
@@ -88,13 +85,13 @@ namespace ProjectEuler
         // (2n+a+m)(2n+a−m)=b, then look at the prime factorization of b and check when k=(d+b/d−2a)/4 is an 
         // integer for not-necessarily-positive divisors d|b, in which case n=k and m=±(d−b/d)/2.
         uint count = 0;
-        if (nt.IsPrime(n)) continue;
+        if (nt.IsPrime(n)) { continue; }
         var mValues = new HashSet<int>();
         var v = b / 2.0;
         var fs = nt.DivisorsOf(n);
         foreach (var f in fs)
         {
-          var ds = new double[] { f, -(double)f };
+          var ds = new[] {f, -(double)f};
           foreach (var d in ds)
           {
             var k = (d + (n / d) - v) / 4.0;
@@ -117,11 +114,11 @@ namespace ProjectEuler
           var d = Math.Sqrt(((lm * lm) + n) / 4);
           if (d.IsInteger())
           {
-            long k = (long)d;
-            long z = m + k;
-            if (z <= 0) continue;
+            var k = (long)d;
+            var z = m + k;
+            if (z <= 0) { continue; }
             ++count;
-            if (count > targetSolutionCount) break;
+            if (count > targetSolutionCount) { break; }
           }
         }
 

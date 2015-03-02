@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
 
 namespace ProjectEuler
 {
   public class Problem077 : EulerProblem
   {
-    public override int Number { get { return 77; } }
+    public override int Number
+    {
+      get { return 77; }
+    }
 
     public override object Solve()
     {
@@ -25,7 +21,7 @@ namespace ProjectEuler
         .ToArray();
 
       // go through N values until we get a result
-      for (int N = 5; N < 1000000; ++N)
+      for (var N = 5; N < 1000000; ++N)
       {
         var subset = primes.TakeWhile(p => p < N).ToArray();
         var count = MathHelper.CoinChangeCount(N, subset);

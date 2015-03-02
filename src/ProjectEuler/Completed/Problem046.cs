@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem046 : EulerProblem
   {
-    public override int Number { get { return 46; } }
+    public override int Number
+    {
+      get { return 46; }
+    }
 
     public override object Solve()
     {
@@ -30,24 +27,24 @@ namespace ProjectEuler
         .ToDictionary(k => k * k, v => true);
 
       // start at 35 and work updwards
-      int i = 35;
+      var i = 35;
       while (true)
       {
         if (!i.IsPrime())
         {
-          bool primeMinusTwiceASquare = false;
-          for (int p = 0; !primeMinusTwiceASquare && p < primes.Count; ++p)
+          var primeMinusTwiceASquare = false;
+          for (var p = 0; !primeMinusTwiceASquare && p < primes.Count; ++p)
           {
-            int prime = primes[p];
+            var prime = primes[p];
             if (prime > i) { break; }
 
             double diff = i - prime;
-            double diffHalf = diff / 2.0;
+            var diffHalf = diff / 2.0;
 
-            double diffHalfFloored = Math.Floor(diffHalf);
+            var diffHalfFloored = Math.Floor(diffHalf);
             if (diffHalfFloored == diffHalf)
             {
-              int m = (int)diffHalfFloored;
+              var m = (int)diffHalfFloored;
               primeMinusTwiceASquare |= squares.ContainsKey(m);
             }
           }

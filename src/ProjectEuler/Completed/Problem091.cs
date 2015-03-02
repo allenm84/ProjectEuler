@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
 
 namespace ProjectEuler
 {
   public class Problem091 : EulerProblem
   {
-    public override int Number { get { return 91; } }
+    public override int Number
+    {
+      get { return 91; }
+    }
 
     public override object Solve()
     {
@@ -27,25 +22,25 @@ namespace ProjectEuler
 
       // next, create the different points
       var points = new List<int[]>();
-      for (int a = 0; a < values.Length; ++a)
+      for (var a = 0; a < values.Length; ++a)
       {
-        int x = values[a];
-        for (int b = 0; b < values.Length; ++b)
+        var x = values[a];
+        for (var b = 0; b < values.Length; ++b)
         {
-          int y = values[b];
-          if (x == 0 && y == 0) continue;
-          points.Add(new int[2] { x, y });
+          var y = values[b];
+          if (x == 0 && y == 0) { continue; }
+          points.Add(new int[2] {x, y});
         }
       }
 
       // keep track of the count
-      int count = 0;
+      var count = 0;
 
       // finally, go through and choose two of the points
-      for (int i = 0; i < points.Count; ++i)
+      for (var i = 0; i < points.Count; ++i)
       {
         var P = points[i];
-        for (int j = i + 1; j < points.Count; ++j)
+        for (var j = i + 1; j < points.Count; ++j)
         {
           var Q = points[j];
           if (IsRightTriangle(P, Q))
@@ -61,14 +56,14 @@ namespace ProjectEuler
 
     private bool IsRightTriangle(int[] P, int[] Q)
     {
-      int x1 = P[0];
-      int y1 = P[1];
+      var x1 = P[0];
+      var y1 = P[1];
 
-      int x2 = Q[0];
-      int y2 = Q[1];
+      var x2 = Q[0];
+      var y2 = Q[1];
 
-      int x3 = 0;
-      int y3 = 0;
+      var x3 = 0;
+      var y3 = 0;
 
       var dx = new int[3];
       dx[0] = sqrd(x3 - x1);

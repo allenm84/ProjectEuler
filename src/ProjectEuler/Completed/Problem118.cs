@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
@@ -19,12 +10,15 @@ namespace ProjectEuler
   {
     private Func<int, bool> IsPrimeMemo;
 
-    public override int Number { get { return 118; } }
-
     public Problem118()
     {
       IsPrimeMemo = PrimeExtensions.IsPrime;
       IsPrimeMemo = IsPrimeMemo.Memoize();
+    }
+
+    public override int Number
+    {
+      get { return 118; }
     }
 
     public override object Solve()
@@ -57,7 +51,7 @@ namespace ProjectEuler
     private bool CreateSet(int[] lengths, char[] array, out List<int> set)
     {
       set = new List<int>();
-      int start = 0;
+      var start = 0;
 
       foreach (var length in lengths)
       {
@@ -65,7 +59,7 @@ namespace ProjectEuler
         Array.Copy(array, start, subset, 0, length);
 
         var num = int.Parse(new string(subset));
-        if (!IsPrimeMemo(num)) return false;
+        if (!IsPrimeMemo(num)) { return false; }
 
         set.Add(num);
         start += length;

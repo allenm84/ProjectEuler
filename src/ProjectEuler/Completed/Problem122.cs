@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem122 : EulerProblem
   {
     #region A003313
-    const string Table = @"1 0
+
+    private const string Table = @"1 0
 2 1
 3 2
 4 2
@@ -218,9 +210,13 @@ namespace ProjectEuler
 198 9
 199 10
 200 9";
+
     #endregion
 
-    public override int Number { get { return 122; } }
+    public override int Number
+    {
+      get { return 122; }
+    }
 
     public override object Solve()
     {
@@ -232,8 +228,8 @@ namespace ProjectEuler
           .ToArray())
         .ToDictionary(k => k[0], v => v[1]);
 
-      int sum = 0;
-      for (int k = 1; k <= 200; ++k)
+      var sum = 0;
+      for (var k = 1; k <= 200; ++k)
       {
         sum += aN[k];
       }

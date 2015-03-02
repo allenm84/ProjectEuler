@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem060 : EulerProblem
   {
-    public override int Number { get { return 60; } }
+    public override int Number
+    {
+      get { return 60; }
+    }
 
     public override object Solve()
     {
@@ -25,19 +21,19 @@ namespace ProjectEuler
       const int Max = 10000;
 
       // create the set to hold the primes
-      List<int> set = new List<int>();
+      var set = new List<int>();
 
       // add 3 to the set. Since 2 appended to any number will make it divisble by 2!
       set.Add(3);
 
       // find the next prime
-      int candidate = 5;
+      var candidate = 5;
 
       // go through until we find a match
       while (true)
       {
-        bool matchFound = false;
-        for (int p = candidate; !matchFound && p < Max; ++p)
+        var matchFound = false;
+        for (var p = candidate; !matchFound && p < Max; ++p)
         {
           if (p.IsPrime() && PropertyExists(ref set, ref p))
           {
@@ -51,7 +47,7 @@ namespace ProjectEuler
         }
 
         // either way, we need the index of the last value
-        int idx = set.Count - 1;
+        var idx = set.Count - 1;
 
         // if we didn't find a prime that matches
         if (!matchFound)
@@ -64,7 +60,7 @@ namespace ProjectEuler
           if (set.Count == 0)
           {
             // this means we ran out of primes! Find the next one
-            while (!(++n).IsPrime()) ;
+            while (!(++n).IsPrime()) { ; }
 
             // add the prime to the set
             set.Add(n);
@@ -83,8 +79,8 @@ namespace ProjectEuler
 
     private bool PropertyExists(ref List<int> set, ref int p)
     {
-      bool valid = true;
-      for (int i = 0; valid && i < set.Count; ++i)
+      var valid = true;
+      for (var i = 0; valid && i < set.Count; ++i)
       {
         var s = set[i];
         var p1 = Convert.ToInt32(string.Concat(s, p));

@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
 using System.Common.Extensions;
+using System.Linq;
+using System.Numerics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem116 : EulerProblem
   {
-    public override int Number { get { return 116; } }
+    public override int Number
+    {
+      get { return 116; }
+    }
 
     public override object Solve()
     {
@@ -33,7 +28,7 @@ namespace ProjectEuler
       Func<int, int, BigInteger> count = null;
       count = (length, size) =>
       {
-        if (length < size) return 0;
+        if (length < size) { return 0; }
 
         // how many ways can we shift size through length?
         BigInteger retval = (length - size) + 1;
@@ -52,7 +47,7 @@ namespace ProjectEuler
       };
       count = count.Memoize();
 
-      int[] sizes = new int[] { 2, 3, 4 };
+      int[] sizes = {2, 3, 4};
       foreach (var size in sizes)
       {
         sum += count(Length, size);

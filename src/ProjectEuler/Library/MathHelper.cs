@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Numerics;
 using System.Collections;
+using System.Collections.Generic;
 using System.Common.Extensions;
+using System.Linq;
+using System.Numerics;
+using System.Text;
 
 namespace ProjectEuler
 {
   public static class MathHelper
   {
-    const string IntMin = "negative two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty eight";
-    const string IntMax = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
-    const string IntZero = "Zero";
+    private const string IntMin = "negative two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty eight";
+    private const string IntMax = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
+    private const string IntZero = "Zero";
 
-    static string[] ones = "one,two,three,four,five,six,seven,eight,nine".Split(',');
-    static string[] teens = "ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen".Split(',');
-    static string[] tens = "twenty,thirty,forty,fifty,sixty,seventy,eighty,ninety".Split(',');
-    static string[] tmbs = ",thousand,million,billion".Split(',');
-    static MathHelper() { }
+    private static string[] ones = "one,two,three,four,five,six,seven,eight,nine".Split(',');
+    private static string[] teens = "ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen".Split(',');
+    private static string[] tens = "twenty,thirty,forty,fifty,sixty,seventy,eighty,ninety".Split(',');
+    private static string[] tmbs = ",thousand,million,billion".Split(',');
+    static MathHelper() {}
 
     /// <summary>
     /// 
@@ -29,7 +29,7 @@ namespace ProjectEuler
     {
       var sieve = new BitArray((nmax / 2) + 1, true);
       var upper = (int)Math.Sqrt(nmax);
-      if (nmax > 1) yield return 2;
+      if (nmax > 1) { yield return 2; }
 
       var m = 1;
       while (2 * m + 1 <= nmax)
@@ -79,7 +79,7 @@ namespace ProjectEuler
         }
         else
         {
-          yield return new int[] { x, y };
+          yield return new[] {x, y};
           sos += 2 * (y - x + 1);
           ++y;
           --x;
@@ -169,27 +169,31 @@ namespace ProjectEuler
     public static BigInteger Sqrt(BigInteger number)
     {
       // problem with lower numbers to to right bit shift
-      int bitLength = number.ToByteArray().Length * 8 + 1;
-      BigInteger G = number >> bitLength / 2;
-      BigInteger LastG = BigInteger.Zero;
-      BigInteger One = new BigInteger(1);
+      var bitLength = number.ToByteArray().Length * 8 + 1;
+      var G = number >> bitLength / 2;
+      var LastG = BigInteger.Zero;
+      var One = new BigInteger(1);
       while (true)
       {
         LastG = G;
         G = (number / G + G) >> 1;
-        int i = G.CompareTo(LastG);
-        if (i == 0) return G;
+        var i = G.CompareTo(LastG);
+        if (i == 0) { return G; }
         if (i < 0)
         {
           if ((LastG - G).CompareTo(One) == 0)
+          {
             if ((G * G).CompareTo(number) < 0 &&
-              (LastG * LastG).CompareTo(number) > 0) return G;
+              (LastG * LastG).CompareTo(number) > 0) { return G; }
+          }
         }
         else
         {
           if ((G - LastG).CompareTo(One) == 0)
+          {
             if ((LastG * LastG).CompareTo(number) < 0 &&
-              ((G * G).CompareTo(number) > 0)) return LastG;
+              ((G * G).CompareTo(number) > 0)) { return LastG; }
+          }
         }
       }
     }
@@ -208,21 +212,21 @@ namespace ProjectEuler
       BigInteger lasty = 0;
       while (b != 0)
       {
-        BigInteger quotient = a / b;
+        var quotient = a / b;
 
-        BigInteger[] ab = new BigInteger[2];
+        var ab = new BigInteger[2];
         ab[0] = b;
         ab[1] = a % b;
         a = ab[0];
         b = ab[1];
 
-        BigInteger[] lxx = new BigInteger[2];
+        var lxx = new BigInteger[2];
         lxx[0] = lastx - quotient * x;
         lxx[1] = x;
         x = lxx[0];
         lastx = lxx[1];
 
-        BigInteger[] lyy = new BigInteger[2];
+        var lyy = new BigInteger[2];
         lyy[0] = lasty - quotient * y;
         lyy[1] = y;
         y = lyy[0];
@@ -288,7 +292,7 @@ namespace ProjectEuler
     /// <returns></returns>
     public static int ModPow(int value, int exponent, int modulus)
     {
-      int result = 1;
+      var result = 1;
       while (exponent > 0)
       {
         if ((exponent & 1) == 1)
@@ -321,7 +325,9 @@ namespace ProjectEuler
         for (j = i + 1; j < n; j++)
         {
           if (Math.Abs(matrix[i][j]) > Math.Abs(matrix[i][maxrow]))
+          {
             maxrow = j;
+          }
         }
 
         /* Swap the maxrow and ith row */
@@ -334,7 +340,9 @@ namespace ProjectEuler
 
         /* Singular matrix? */
         if (matrix[i][i] == 0.0)
+        {
           return false;
+        }
 
         /* Eliminate the ith element of the jth row */
         for (j = i + 1; j < n; j++)
@@ -351,7 +359,9 @@ namespace ProjectEuler
       {
         tmp = 0;
         for (k = j + 1; k < n; k++)
+        {
           tmp += matrix[k][j] * x[k];
+        }
         x[j] = (matrix[n][j] - tmp) / matrix[j][j];
       }
 
@@ -396,23 +406,43 @@ namespace ProjectEuler
     /// </summary>
     public static int Phi(int n)
     {
-      if (n <= 1) return n == 1 ? 1 : 0;
-      int phi = n;
+      if (n <= 1) { return n == 1 ? 1 : 0; }
+      var phi = n;
 
-      if (n % 2 == 0) { phi /= 2; n /= 2; while (n % 2 == 0) n /= 2; }
-      if (n % 3 == 0) { phi -= phi / 3; n /= 3; while (n % 3 == 0) n /= 3; }
-
-      for (int p = 5; p * p <= n; )
+      if (n % 2 == 0)
       {
-        if (n % p == 0) { phi -= phi / p; n /= p; while (n % p == 0) n /= p; }
+        phi /= 2;
+        n /= 2;
+        while (n % 2 == 0) { n /= 2; }
+      }
+      if (n % 3 == 0)
+      {
+        phi -= phi / 3;
+        n /= 3;
+        while (n % 3 == 0) { n /= 3; }
+      }
+
+      for (var p = 5; p * p <= n;)
+      {
+        if (n % p == 0)
+        {
+          phi -= phi / p;
+          n /= p;
+          while (n % p == 0) { n /= p; }
+        }
         p += 2;
 
-        if (p * p > n) break;
-        if (n % p == 0) { phi -= phi / p; n /= p; while (n % p == 0) n /= p; }
+        if (p * p > n) { break; }
+        if (n % p == 0)
+        {
+          phi -= phi / p;
+          n /= p;
+          while (n % p == 0) { n /= p; }
+        }
         p += 4;
       }
 
-      if (n > 1) phi -= phi / n;
+      if (n > 1) { phi -= phi / n; }
       return phi;
     }
 
@@ -421,10 +451,12 @@ namespace ProjectEuler
     /// </summary>
     public static IEnumerable<int> Primes()
     {
-      for (int i = 2; i < int.MaxValue; ++i)
+      for (var i = 2; i < int.MaxValue; ++i)
       {
         if (i.IsPrime())
+        {
           yield return i;
+        }
       }
     }
 
@@ -441,8 +473,10 @@ namespace ProjectEuler
     /// </summary>
     public static IEnumerable<int> TriangleNumbers()
     {
-      for (int n = 0; n < int.MaxValue; ++n)
-        yield return MathHelper.FTriangle(n);
+      for (var n = 0; n < int.MaxValue; ++n)
+      {
+        yield return FTriangle(n);
+      }
     }
 
     /// <summary>
@@ -458,8 +492,10 @@ namespace ProjectEuler
     /// </summary>
     public static IEnumerable<int> SquareNumbers()
     {
-      for (int n = 0; n < int.MaxValue; ++n)
-        yield return MathHelper.FSquare(n);
+      for (var n = 0; n < int.MaxValue; ++n)
+      {
+        yield return FSquare(n);
+      }
     }
 
     /// <summary>
@@ -475,8 +511,10 @@ namespace ProjectEuler
     /// </summary>
     public static IEnumerable<int> PentagonNumbers()
     {
-      for (int n = 0; n < int.MaxValue; ++n)
-        yield return MathHelper.FPentagon(n);
+      for (var n = 0; n < int.MaxValue; ++n)
+      {
+        yield return FPentagon(n);
+      }
     }
 
     /// <summary>
@@ -492,8 +530,10 @@ namespace ProjectEuler
     /// </summary>
     public static IEnumerable<int> HexagonNumbers()
     {
-      for (int n = 0; n < int.MaxValue; ++n)
-        yield return MathHelper.FHexagon(n);
+      for (var n = 0; n < int.MaxValue; ++n)
+      {
+        yield return FHexagon(n);
+      }
     }
 
     /// <summary>
@@ -509,8 +549,10 @@ namespace ProjectEuler
     /// </summary>
     public static IEnumerable<int> HeptagonNumbers()
     {
-      for (int n = 0; n < int.MaxValue; ++n)
-        yield return MathHelper.FHeptagon(n);
+      for (var n = 0; n < int.MaxValue; ++n)
+      {
+        yield return FHeptagon(n);
+      }
     }
 
     /// <summary>
@@ -526,8 +568,10 @@ namespace ProjectEuler
     /// </summary>
     public static IEnumerable<int> OctagonNumbers()
     {
-      for (int n = 0; n < int.MaxValue; ++n)
-        yield return MathHelper.FOctagon(n);
+      for (var n = 0; n < int.MaxValue; ++n)
+      {
+        yield return FOctagon(n);
+      }
     }
 
     /// <summary>
@@ -535,7 +579,7 @@ namespace ProjectEuler
     /// </summary>
     public static bool IsPentagonal(long x)
     {
-      double n = (Math.Sqrt((24.0 * x) + 1.0) + 1.0) / 6.0;
+      var n = (Math.Sqrt((24.0 * x) + 1.0) + 1.0) / 6.0;
       return (n > 0) && (n == Math.Floor(n));
     }
 
@@ -544,7 +588,7 @@ namespace ProjectEuler
     /// </summary>
     public static bool IsHexagonal(long x)
     {
-      double n = (Math.Sqrt((8.0 * x) + 1.0) + 1.0) / 4.0;
+      var n = (Math.Sqrt((8.0 * x) + 1.0) + 1.0) / 4.0;
       return (n > 0) && (n == Math.Floor(n));
     }
 
@@ -553,7 +597,7 @@ namespace ProjectEuler
     /// </summary>
     public static decimal GCD(decimal a, decimal b)
     {
-      if (b == 0) return a;
+      if (b == 0) { return a; }
       return GCD(b, a % b);
     }
 
@@ -562,7 +606,7 @@ namespace ProjectEuler
     /// </summary>
     public static int GCD(int a, int b)
     {
-      if (b == 0) return a;
+      if (b == 0) { return a; }
       return GCD(b, a % b);
     }
 
@@ -571,19 +615,19 @@ namespace ProjectEuler
     /// </summary>
     public static List<BigInteger> AllPartitionsUpTo(int max)
     {
-      List<BigInteger> pt = new List<BigInteger> { 1 };
-      for (int n = 1; n <= max; ++n)
+      var pt = new List<BigInteger> {1};
+      for (var n = 1; n <= max; ++n)
       {
         BigInteger r = 0;
-        int f = -1;
+        var f = -1;
 
-        int i = 0;
+        var i = 0;
         while (true)
         {
-          int k = gpent(i);
-          if (k > n) break;
+          var k = gpent(i);
+          if (k > n) { break; }
 
-          if ((i % 2) == 0) f = -f;
+          if ((i % 2) == 0) { f = -f; }
           r += f * pt[n - k];
           ++i;
         }
@@ -595,9 +639,9 @@ namespace ProjectEuler
 
     private static int gpent(int n)
     {
-      if (n < 0) return 0;
-      if ((n % 2) == 0) return FPentagon(n / 2 + 1);
-      else return FPentagon(-(n / 2 + 1));
+      if (n < 0) { return 0; }
+      if ((n % 2) == 0) { return FPentagon(n / 2 + 1); }
+      return FPentagon(-(n / 2 + 1));
     }
 
     /// <summary>
@@ -607,14 +651,14 @@ namespace ProjectEuler
     /// <returns></returns>
     public static int CountParitions(int n)
     {
-      if (n < 0) return 0;
-      if (n == 0) return 1;
+      if (n < 0) { return 0; }
+      if (n == 0) { return 1; }
 
-      int n2 = n >> 1;
-      int sum = 1;
+      var n2 = n >> 1;
+      var sum = 1;
 
       var table = new Dictionary<int, Dictionary<int, int>>();
-      for (int k = 1; k <= n2; ++k)
+      for (var k = 1; k <= n2; ++k)
       {
         sum += p(k, n - k, ref table);
       }
@@ -684,15 +728,15 @@ namespace ProjectEuler
 
     private static string nnn2words(int iNum)
     {
-      int i = iNum % 10;
-      string s = string.Empty;
+      var i = iNum % 10;
+      var s = string.Empty;
 
       if (i > 0)
       {
         s = ones[i - 1];
       }
 
-      int ii = (iNum % 100) / 10;
+      var ii = (iNum % 100) / 10;
       if (ii == 1)
       {
         s = teens[i];
@@ -717,10 +761,10 @@ namespace ProjectEuler
     /// <returns>The string representation of a number.</returns>
     public static string NumberToText(int number)
     {
-      string s = string.Empty;
-      long l = Math.Abs((long)number);
+      var s = string.Empty;
+      var l = Math.Abs((long)number);
 
-      bool negative = number < 0;
+      var negative = number < 0;
       if (l == 0)
       {
         s = IntZero;
@@ -740,8 +784,8 @@ namespace ProjectEuler
       }
       else
       {
-        int i = Math.Abs(number);
-        for (int j = 0; j < tmbs.Length; ++j)
+        var i = Math.Abs(number);
+        for (var j = 0; j < tmbs.Length; ++j)
         {
           var iii = i % 1000;
           i /= 1000;
@@ -777,7 +821,7 @@ namespace ProjectEuler
     /// <returns></returns>
     public static BigInteger Fact(int n)
     {
-      if (n < 2) return 1;
+      if (n < 2) { return 1; }
 
       var res = new BigInteger(n);
       while ((--n) > 0)
@@ -792,12 +836,12 @@ namespace ProjectEuler
     /// </summary>
     public static double[] SolveQuadratic(double a, double b, double c)
     {
-      double sqrtPart = Math.Sqrt((b * b) - (4 * a * c));
-      double twoA = 2 * a;
-      return new double[]
+      var sqrtPart = Math.Sqrt((b * b) - (4 * a * c));
+      var twoA = 2 * a;
+      return new[]
       {
-        (b + sqrtPart)/twoA,
-        (b - sqrtPart)/twoA,
+        (b + sqrtPart) / twoA,
+        (b - sqrtPart) / twoA
       };
     }
 
@@ -808,8 +852,8 @@ namespace ProjectEuler
     /// <returns></returns>
     public static int SumOfDivisors(int num)
     {
-      int sum = 0;
-      int r = (int)Math.Sqrt(num);
+      var sum = 0;
+      var r = (int)Math.Sqrt(num);
       if (r * r == num) //case that n is a perfect square
       {
         sum += r;
@@ -818,19 +862,23 @@ namespace ProjectEuler
       if (num % 2 != 0)
       {
         //number is odd
-        for (int i = 1; i <= r; i += 2)
+        for (var i = 1; i <= r; i += 2)
         {
           if (num % i == 0)
+          {
             sum += i + num / i;
+          }
         }
       }
       else
       {
         //number is even
-        for (int i = 1; i <= r; i += 1)
+        for (var i = 1; i <= r; i += 1)
         {
           if (num % i == 0)
+          {
             sum += i + num / i;
+          }
         }
       }
       return sum;

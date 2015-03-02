@@ -2,37 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
 using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ProjectEuler
 {
   public class Problem030 : EulerProblem
   {
-    public override int Number { get { return 30; } }
+    public override int Number
+    {
+      get { return 30; }
+    }
 
     public override object Solve()
     {
-      int[] table = Enumerable
+      var table = Enumerable
         .Range(0, 10)
         .Select(i => (int)Math.Pow(i, 5))
         .ToArray();
 
       long total = 0;
       Parallel.For(2, 1000000, n =>
+      {
+        var t = n.ToString();
+        var digits = t.Select(c => ((int)c) - 48).ToArray();
+        var sum = digits.Sum(d => table[d]);
+        if (sum == n)
         {
-          string t = n.ToString();
-          int[] digits = t.Select(c => ((int)c) - 48).ToArray();
-          int sum = digits.Sum(d => table[d]);
-          if (sum == n)
-          {
-            Interlocked.Add(ref total, sum);
-          }
-        });
+          Interlocked.Add(ref total, sum);
+        }
+      });
 
       return total;
     }

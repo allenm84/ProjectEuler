@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
 
 namespace ProjectEuler
 {
   public class Problem062 : EulerProblem
   {
-    const double OneThird = 0.333333333333333;
+    private const double OneThird = 0.333333333333333;
 
-    public override int Number { get { return 62; } }
+    public override int Number
+    {
+      get { return 62; }
+    }
 
     public override object Solve()
     {
       // determine the maximum number we can cube
-      decimal limit = (decimal)Math.Floor(Math.Pow((double)decimal.MaxValue, OneThird));
+      var limit = (decimal)Math.Floor(Math.Pow((double)decimal.MaxValue, OneThird));
 
       // start out with 3-digit perfect cubes
       byte min = 3;
@@ -33,18 +29,15 @@ namespace ProjectEuler
       decimal seed = 0;
 
       // create a list to hold the cubes
-      List<decimal> cubes = new List<decimal>();
+      var cubes = new List<decimal>();
 
       // while the seed is valid
       while ((++seed) <= limit)
       {
-        decimal cube = (seed * seed * seed);
-        byte len = (byte)cube.ToString().Length;
-        if (len < min)
-        {
-          continue;
-        }
-        else if (len >= max)
+        var cube = (seed * seed * seed);
+        var len = (byte)cube.ToString().Length;
+        if (len < min) {}
+        if (len >= max)
         {
           // this means the cube we generated is too big, 
           // so lets check the current cubes
@@ -53,18 +46,15 @@ namespace ProjectEuler
           {
             return result;
           }
-          else
-          {
-            // we didn't find the result
-            cubes.Clear();
+          // we didn't find the result
+          cubes.Clear();
 
-            // decrement the seed so we generate this number again
-            --seed;
+          // decrement the seed so we generate this number again
+          --seed;
 
-            // update the min and max
-            min = max;
-            ++max;
-          }
+          // update the min and max
+          min = max;
+          ++max;
         }
         else
         {
@@ -80,14 +70,15 @@ namespace ProjectEuler
     private bool ResultExists(List<decimal> cubes, out decimal result)
     {
       result = 0.0m;
-      if (cubes.Count == 0) return false;
+      if (cubes.Count == 0) { return false; }
 
       // go through the cubes in the list and reduce them to their digits
       var groups = from v in
-                     (from c in cubes
-                      select new { Value = c, Digits = SortedString(c) })
-                   group v by v.Digits into dg
-                   select dg;
+        (from c in cubes
+          select new {Value = c, Digits = SortedString(c)})
+        group v by v.Digits
+        into dg
+        select dg;
 
       // go through each group and retrieve the group with five (if there is any)
       foreach (var g in groups)

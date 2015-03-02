@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem012 : EulerProblem
   {
-    public override int Number { get { return 12; } }
+    public override int Number
+    {
+      get { return 12; }
+    }
 
     public override object Solve()
     {
-      int i = 11;
-      int factorCount = 0;
+      var i = 11;
+      var factorCount = 0;
 
-      int result = 0;
+      var result = 0;
       while (factorCount < 500)
       {
-        int triangle = Enumerable.Range(1, i).Sum();
+        var triangle = Enumerable.Range(1, i).Sum();
         factorCount = triangle.Factors().Count();
 
         result = triangle;

@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
 
 namespace ProjectEuler
 {
   public class Problem090 : EulerProblem
   {
-    public override int Number { get { return 90; } }
+    public override int Number
+    {
+      get { return 90; }
+    }
 
     public override object Solve()
     {
@@ -25,30 +20,30 @@ namespace ProjectEuler
       // distinct
 
       // create an array to hold the digits
-      int[] digits = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+      int[] digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
       // now, we need to create the arrangements. Basically, given the digits
       // choose 6
       var cubes = new List<int[]>();
-      for (int a = 0; a < digits.Length; ++a)
+      for (var a = 0; a < digits.Length; ++a)
       {
-        int d1 = digits[a];
-        for (int b = a + 1; b < digits.Length; ++b)
+        var d1 = digits[a];
+        for (var b = a + 1; b < digits.Length; ++b)
         {
-          int d2 = digits[b];
-          for (int c = b + 1; c < digits.Length; ++c)
+          var d2 = digits[b];
+          for (var c = b + 1; c < digits.Length; ++c)
           {
-            int d3 = digits[c];
-            for (int d = c + 1; d < digits.Length; ++d)
+            var d3 = digits[c];
+            for (var d = c + 1; d < digits.Length; ++d)
             {
-              int d4 = digits[d];
-              for (int e = d + 1; e < digits.Length; ++e)
+              var d4 = digits[d];
+              for (var e = d + 1; e < digits.Length; ++e)
               {
-                int d5 = digits[e];
-                for (int f = e + 1; f < digits.Length; ++f)
+                var d5 = digits[e];
+                for (var f = e + 1; f < digits.Length; ++f)
                 {
-                  int d6 = digits[f];
-                  cubes.Add(new int[6] { d1, d2, d3, d4, d5, d6 });
+                  var d6 = digits[f];
+                  cubes.Add(new int[6] {d1, d2, d3, d4, d5, d6});
                 }
               }
             }
@@ -60,10 +55,10 @@ namespace ProjectEuler
       var arrangements = new Dictionary<long, bool>();
 
       // now, we need to choose two arrangements
-      for (int i = 0; i < cubes.Count; ++i)
+      for (var i = 0; i < cubes.Count; ++i)
       {
         var cube1 = cubes[i];
-        for (int j = i + 1; j < cubes.Count; ++j)
+        for (var j = i + 1; j < cubes.Count; ++j)
         {
           var cube2 = cubes[j];
 
@@ -85,19 +80,19 @@ namespace ProjectEuler
             {81, false},
           };
 
-          for (int m = 0; m < cube1.Length; ++m)
+          for (var m = 0; m < cube1.Length; ++m)
           {
             var c1 = cube1[m];
             var c1_2 =
               c1 == 6 ? 9 :
-              c1 == 9 ? 6 : -10000;
+                c1 == 9 ? 6 : -10000;
 
-            for (int n = 0; n < cube2.Length; ++n)
+            for (var n = 0; n < cube2.Length; ++n)
             {
               var c2 = cube2[n];
               var c2_1 =
                 c2 == 6 ? 9 :
-                c2 == 9 ? 6 : -10000;
+                  c2 == 9 ? 6 : -10000;
 
               var values = new int[6];
 
@@ -112,10 +107,10 @@ namespace ProjectEuler
               values[5] = (c2 * 10) + c1_2;
 
               // check the values
-              for (int v = 0; v < values.Length; ++v)
+              for (var v = 0; v < values.Length; ++v)
               {
                 var value = values[v];
-                if (value < 0) continue;
+                if (value < 0) { continue; }
 
                 if (squares.ContainsKey(value))
                 {
@@ -132,7 +127,7 @@ namespace ProjectEuler
             var l = string.Join("", cube1
               .OrderBy(d => d)
               .Concat(cube2
-              .OrderBy(d => d)));
+                .OrderBy(d => d)));
 
             // set the arrangement
             var key = Convert.ToInt64(l);

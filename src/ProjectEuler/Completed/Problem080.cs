@@ -1,36 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Threading;
-using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
+using System.Text;
 
 namespace ProjectEuler
 {
   public class Problem080 : EulerProblem
   {
-    public override int Number { get { return 80; } }
+    public override int Number
+    {
+      get { return 80; }
+    }
 
     public override object Solve()
     {
       // create a variable to store the overall sum
-      int sum = 0;
+      var sum = 0;
 
       // generate a table of squares
       var squares = new Dictionary<int, bool>();
-      for (int n = 1; n <= 100; ++n)
+      for (var n = 1; n <= 100; ++n)
+      {
         squares[(n * n)] = true;
+      }
 
       // go throuhg the numbers
-      for (int n = 1; n <= 100; ++n)
+      for (var n = 1; n <= 100; ++n)
       {
         // if this is a perfect square, then continue
-        if (squares.ContainsKey(n)) continue;
+        if (squares.ContainsKey(n)) { continue; }
 
         // create a list containing the digits
         var digits = n.ToString().ToList();
@@ -44,11 +43,11 @@ namespace ProjectEuler
         digits.AddRange(Enumerable.Repeat('0', 204 - digits.Count));
 
         // create a variable to store the remainder
-        BigInteger remainder = BigInteger.Zero;
-        BigInteger root = BigInteger.Zero;
+        var remainder = BigInteger.Zero;
+        var root = BigInteger.Zero;
 
         // create a variable to iterate the digits
-        int i = 0;
+        var i = 0;
         while (i < digits.Count)
         {
           // starting on the left, bring down the left most
@@ -57,8 +56,8 @@ namespace ProjectEuler
           // step. In other words, multiply the remainder by 100 
           // and add the two digits. This will be the current value c.
           var c = (remainder * 100);
-          c += int.Parse(new string(new char[] 
-          { digits[i], digits[i + 1] }));
+          c += int.Parse(new string(new[]
+          {digits[i], digits[i + 1]}));
 
           // update the digit selector
           i += 2;

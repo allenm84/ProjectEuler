@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Common.Extensions;
 using System.Linq;
 using System.Text;
-using ProjectEuler.Properties;
-using System.Threading.Tasks;
-using System.Numerics;
-using System.Threading;
 using Facet.Combinatorics;
-using System.Diagnostics;
-using System.IO;
-using System.Collections;
-using System.Data;
-using System.Common.Extensions;
 
 namespace ProjectEuler
 {
   public class Problem093 : EulerProblem
   {
-    public override int Number { get { return 93; } }
+    public override int Number
+    {
+      get { return 93; }
+    }
 
     public override object Solve()
     {
@@ -56,7 +51,7 @@ namespace ProjectEuler
             var count = 0;
             var current = 1;
 
-            for (int i = 1; i < results.Count; ++i)
+            for (var i = 1; i < results.Count; ++i)
             {
               var n = results[i];
               if ((n - current) == 1)
@@ -85,19 +80,19 @@ namespace ProjectEuler
     private IEnumerable<int[]> GetSets()
     {
       var digits = "0123456789".Select(c => c - 48).ToArray();
-      for (int i = 0; i < digits.Length; ++i)
+      for (var i = 0; i < digits.Length; ++i)
       {
         var a = digits[i];
-        for (int j = i + 1; j < digits.Length; ++j)
+        for (var j = i + 1; j < digits.Length; ++j)
         {
           var b = digits[j];
-          for (int k = j + 1; k < digits.Length; ++k)
+          for (var k = j + 1; k < digits.Length; ++k)
           {
             var c = digits[k];
-            for (int l = k + 1; l < digits.Length; ++l)
+            for (var l = k + 1; l < digits.Length; ++l)
             {
               var d = digits[l];
-              yield return new int[4] { a, b, c, d };
+              yield return new int[4] {a, b, c, d};
             }
           }
         }
