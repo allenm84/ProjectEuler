@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using System.Reflection;
-using System.Diagnostics;
-using System.Threading;
-using System.IO;
-using System.Xml;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace ProjectEuler
 {
   public partial class MainForm : Form
   {
     private BindingList<EulerProblem> problemBindingList = new BindingList<EulerProblem>();
-    private EulerTime[] times;
 
     private List<EulerResult> results;
     private string resultsFilepath;
+    private EulerTime[] times;
 
     public MainForm()
     {
@@ -29,23 +26,23 @@ namespace ProjectEuler
       MinimumSize = Size;
 
       // subscribe to the load event
-      Load += new EventHandler(MainForm_Load);
+      Load += MainForm_Load;
 
       // initialize the times in order of magnitude
-      times = new EulerTime[]
+      times = new[]
       {
-        EulerTime.Create((t) => t.TotalMilliseconds, 1000, "ms"),
-        EulerTime.Create((t) => t.TotalSeconds, 60, "s"),
-        EulerTime.Create((t) => t.TotalMinutes, 60, "mins"),
-        EulerTime.Create((t) => t.TotalHours, 24, "hrs"),
-        EulerTime.Create((t) => t.TotalDays, double.MaxValue, "days"),
+        EulerTime.Create(t => t.TotalMilliseconds, 1000, "ms"),
+        EulerTime.Create(t => t.TotalSeconds, 60, "s"),
+        EulerTime.Create(t => t.TotalMinutes, 60, "mins"),
+        EulerTime.Create(t => t.TotalHours, 24, "hrs"),
+        EulerTime.Create(t => t.TotalDays, double.MaxValue, "days")
       };
     }
 
     public void ShowError(string text)
     {
       MessageBox.Show(this, text, "Error",
-          MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     public void SetIsWorking(bool working)
@@ -57,14 +54,14 @@ namespace ProjectEuler
 
     private void InitializeGrid()
     {
-      gridMessages.DefaultCellStyle.Font = new System.Drawing.Font("Lucida Console", 8.75f);
+      gridMessages.DefaultCellStyle.Font = new Font("Lucida Console", 8.75f);
       gridMessages.RowTemplate.Height = 18;
 
       var eulerProblem = typeof(EulerProblem);
       var problems = (from type in typeof(EulerProblem).Assembly.GetTypes()
-                      where type.IsSubclassOf(eulerProblem) && !type.IsAbstract
-                      select Activator.CreateInstance(type) as EulerProblem)
-                      .OrderByDescending(p => p.Number);
+        where type.IsSubclassOf(eulerProblem) && !type.IsAbstract
+        select Activator.CreateInstance(type) as EulerProblem)
+        .OrderByDescending(p => p.Number);
 
       foreach (var problem in problems)
       {
@@ -82,8 +79,8 @@ namespace ProjectEuler
     private void UpdateUI()
     {
       var row = gridProblems.SelectedRows.Cast<DataGridViewRow>().FirstOrDefault();
-      EulerProblem problem = (row != null) ? row.DataBoundItem as EulerProblem : null;
-      bool invalidProblem = (problem == null || gridProblems.SelectedRows.Count != 1);
+      var problem = (row != null) ? row.DataBoundItem as EulerProblem : null;
+      var invalidProblem = (problem == null || gridProblems.SelectedRows.Count != 1);
       btnSolve.Enabled = !invalidProblem;
     }
 
@@ -122,7 +119,7 @@ namespace ProjectEuler
           results = EulerResult.ListSerializer.ReadObject(stream) as List<EulerResult>;
         }
       }
-      
+
       // initialize the solutions if there are none
       if (results == null)
       {
@@ -148,7 +145,7 @@ namespace ProjectEuler
 
     private void DoSaveWork()
     {
-      var settings = new XmlWriterSettings { Indent = true };
+      var settings = new XmlWriterSettings {Indent = true};
       using (var writer = XmlWriter.Create(resultsFilepath, settings))
       {
         EulerResult.ListSerializer.WriteObject(writer, results);
@@ -193,7 +190,7 @@ namespace ProjectEuler
       result.Solved = DateTime.Now;
       results.Add(result);
 
-      TimeSpan span = result.Timespan;
+      var span = result.Timespan;
       foreach (var time in times)
       {
         var value = time.Time(span);
@@ -227,9 +224,9 @@ namespace ProjectEuler
     private void gridProblems_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
       var row = gridProblems.SelectedRows.Cast<DataGridViewRow>().FirstOrDefault();
-      EulerProblem problem = (row != null) ? row.DataBoundItem as EulerProblem : null;
+      var problem = (row != null) ? row.DataBoundItem as EulerProblem : null;
 
-      bool invalidProblem = (problem == null || gridProblems.SelectedRows.Count != 1);
+      var invalidProblem = (problem == null || gridProblems.SelectedRows.Count != 1);
       if (!invalidProblem)
       {
         Process.Start(problem.Url);
