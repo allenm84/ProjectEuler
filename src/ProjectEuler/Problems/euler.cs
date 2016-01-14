@@ -18,6 +18,18 @@ namespace ProjectEuler
       new T().Run();
     }
 
+    public static void Solve()
+    {
+      var eulerType = typeof(euler);
+      var type = eulerType.Assembly.GetTypes()
+        .Where(t => t.IsSubclassOf(eulerType) && !t.IsAbstract)
+        .OrderByDescending(t => t.Name)
+        .FirstOrDefault();
+
+      Console.WriteLine("Run {0}", type.Name);
+      (Activator.CreateInstance(type) as euler).Run();
+    }
+
     public static void Solve(int number)
     {
       Func<euler> factory;
