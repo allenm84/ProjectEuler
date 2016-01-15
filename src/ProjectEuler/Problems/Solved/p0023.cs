@@ -27,7 +27,7 @@ namespace ProjectEuler
         numbers.Add(i);
 
         // retrieve the proper divisors
-        var factors = new HashSet<int>(ntheory.divisors(i));
+        var factors = new HashSet<int>(math.divisors(i));
         factors.Remove(i);
 
         // if there were results, and the sum of the results is greater

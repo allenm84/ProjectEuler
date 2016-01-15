@@ -17,7 +17,7 @@ namespace ProjectEuler
 
       for (long i = 2; i < 1000000; ++i)
       {
-        var chainCount = ntheory.collatz(i).Count();
+        var chainCount = math.collatz(i).Count();
         if (chainCount > maxChainCount)
         {
           startingNumber = i;

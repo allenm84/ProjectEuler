@@ -20,7 +20,7 @@ namespace ProjectEuler
       var table = new int[Len][];
       for (var i = 0; i < Len; ++i)
       {
-        var set = new HashSet<int>(ntheory.divisors(i));
+        var set = new HashSet<int>(math.divisors(i));
         set.Remove(i);
         table[i] = set.ToArray();
       }
