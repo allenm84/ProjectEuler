@@ -88,6 +88,7 @@
     <Compile Include="Problems\Solved\p0023.cs" />
     <Compile Include="Problems\Solved\p0024.cs" />
     <Compile Include="Problems\Solved\p0025.cs" />
+    <Compile Include="Problems\Solved\p0042.cs" />
     <Compile Include="Problems\Solved\p0041.cs" />
     <Compile Include="Problems\Solved\p0040.cs" />
     <Compile Include="Problems\Solved\p0039.cs" />
@@ -124,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="Resources\p0042.txt" />
     <None Include="Resources\p0022.txt" />
   </ItemGroup>
   <ItemGroup>
