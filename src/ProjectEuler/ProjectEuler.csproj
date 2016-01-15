@@ -44,8 +44,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mathematics, Version=0.9.5858.19933, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mathematics.0.9.5858.19933\lib\net45\Mathematics.dll</HintPath>
+    <Reference Include="Mathematics, Version=0.9.5858.20627, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mathematics.0.9.5858.20627\lib\net45\Mathematics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -88,6 +88,7 @@
     <Compile Include="Problems\Solved\p0023.cs" />
     <Compile Include="Problems\Solved\p0024.cs" />
     <Compile Include="Problems\Solved\p0025.cs" />
+    <Compile Include="Problems\Solved\p0035.cs" />
     <Compile Include="Problems\Solved\p0034.cs" />
     <Compile Include="Problems\Solved\p0033.cs" />
     <Compile Include="Problems\Solved\p0032.cs" />
