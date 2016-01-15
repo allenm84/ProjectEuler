@@ -18,7 +18,7 @@ namespace ProjectEuler
       while (factorCount < 500)
       {
         var triangle = Enumerable.Range(1, i).Sum();
-        factorCount = ntheory.divisors(triangle).Count();
+        factorCount = math.divisors(triangle).Count();
 
         result = triangle;
         ++i;

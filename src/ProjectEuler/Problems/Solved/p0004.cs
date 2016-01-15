@@ -23,7 +23,7 @@ namespace ProjectEuler
         for (var b = a; b > Min; --b)
         {
           var p = (a * b);
-          if (p.isPalindrome() && p > result)
+          if (math.isPalindrome(p) && p > result)
           {
             result = p;
             l = a;
