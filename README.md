@@ -1,4 +1,4 @@
 # ProjectEuler #
 
-My solutions to various ProjectEuler problems
+My solutions to various ProjectEuler problems\
 https://projecteuler.net/
